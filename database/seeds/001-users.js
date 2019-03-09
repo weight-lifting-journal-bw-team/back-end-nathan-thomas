@@ -14,6 +14,20 @@ exports.seed = function(knex, Promise) {
           first_name: "admin",
           last_name: "istrator",
           email: "email@gmail.com"
+        },
+        {
+          username: "wehavetogoback",
+          password: bcrypt.hashSync("password", 14),
+          first_name: "Marty",
+          last_name: "McFly",
+          email: "theLibyans@gmail.com"
+        },
+        {
+          username: "big_doc",
+          password: bcrypt.hashSync("password", 14),
+          first_name: "Doc",
+          last_name: "Brown",
+          email: "greatscott@gmail.com"
         }
       ]);
     });

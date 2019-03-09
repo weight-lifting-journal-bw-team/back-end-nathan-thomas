@@ -70,7 +70,7 @@ router.put("/:id", async (req, res) => {
   if (!username || !password || !first_name || !last_name || !email) {
     res.status(404).json({
       error: true,
-      message: "Please include information to update and try again."
+      message: "There was an error processing your request."
     });
   }
   try {
@@ -78,9 +78,10 @@ router.put("/:id", async (req, res) => {
     const hash = bcrypt.hashSync(updateUser.password, 14);
     updateUser.password = hash;
     const user = await Users.update(req.params.id, updateUser);
+    console.log(user);
     if (user) {
       const users = await Users.find().where({
-        username: newUserInfo.username
+        username: username
       });
       res.status(200).json({
         message: "The user was updated successfully.",
@@ -90,7 +91,10 @@ router.put("/:id", async (req, res) => {
     } else {
       res
         .status(404)
-        .json({ message: "The user could not be updated in the databse." });
+        .json({
+          error: true,
+          message: "The user could not be updated in the databse."
+        });
     }
   } catch (error) {
     const errorMessage =
