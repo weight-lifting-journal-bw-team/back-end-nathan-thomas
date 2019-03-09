@@ -64,10 +64,27 @@ router.post("/login", async (req, res) => {
       .first();
     if (user && bcrypt.compareSync(creds.password, user.password)) {
       const token = tokenService.generateToken(user);
+      const {
+        user_id,
+        username,
+        first_name,
+        last_name,
+        email,
+        created_at,
+        updated_at
+      } = user;
       res.status(200).json({
-        token,
         message: "The user was logged in successfully.",
-        user: { id: user.id, username: user.username } // Expand with additional info as needed
+        token,
+        user: {
+          user_id,
+          username,
+          first_name,
+          last_name,
+          email,
+          created_at,
+          updated_at
+        } // Expand with additional info as needed
       });
     } else {
       res.status(404).json({
@@ -76,7 +93,7 @@ router.post("/login", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       error: true,
       message: "There was a problem with your request."
     });

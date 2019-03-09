@@ -12,6 +12,7 @@ function find() {
   return db("users").select(
     "user_id",
     "username",
+    "password",
     "first_name",
     "last_name",
     "email",
