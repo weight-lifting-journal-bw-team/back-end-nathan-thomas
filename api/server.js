@@ -2,6 +2,7 @@
 const express = require("express");
 const configureMiddleware = require("./middleware.js");
 const server = express();
+require("dotenv").config();
 
 // Pass server through middleware file
 configureMiddleware(server);
@@ -10,10 +11,12 @@ configureMiddleware(server);
 const restricted = require("../auth/restricted.js");
 
 // Import various split API routes
+// const workoutsRouter = require("../workouts/workoutsRouter.js");
 const usersRouter = require("../users/usersRouter.js");
 const authRouter = require("../auth/authRouter.js");
 
 // Router assignments
+// server.use("/api/restricted/workouts", restricted, workoutsRouter);
 server.use("/api/restricted/users", restricted, usersRouter);
 server.use("/api/auth", authRouter);
 

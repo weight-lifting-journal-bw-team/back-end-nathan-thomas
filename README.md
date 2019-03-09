@@ -10,6 +10,8 @@
 
 # DATA SCHEMA (DATA STRUCTURES)
 
+Complete data modeling and schema mockups can be found [here](https://www.dbdesigner.net/designer/schema/233119).
+
 `Users`
 
 ```
