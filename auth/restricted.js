@@ -10,7 +10,10 @@ module.exports = (req, res, next) => {
       if (err) {
         res
           .status(401)
-          .json({ message: "Not authorized. Please try logging in again." });
+          .json({
+            error: true,
+            message: "Not authorized. Please try logging in again."
+          });
       } else {
         req.decodedToken = decodedToken;
         next();
@@ -19,6 +22,9 @@ module.exports = (req, res, next) => {
   } else {
     res
       .status(401)
-      .json({ message: "Please include a login token and try again." });
+      .json({
+        error: true,
+        message: "Please include a login token and try again."
+      });
   }
 };

@@ -8,13 +8,19 @@ const tokenService = require("../auth/tokenService.js");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-  if (!req.body.username || !req.body.password) {
+  const creds = req.body;
+  if (
+    !creds.username ||
+    !creds.password ||
+    !creds.first_name ||
+    !creds.last_name ||
+    !creds.email
+  ) {
     return res.status(406).json({
       error: true,
       message: "Please include a username and password and try again."
     });
   }
-  // Adding new user to database
   try {
     // Encryption of password
     const newUserInfo = req.body;
@@ -22,19 +28,14 @@ router.post("/register", async (req, res) => {
     newUserInfo.password = hash;
     const user = await Users.insert(newUserInfo);
     if (user) {
-      const newUserProfile = await Users.find()
-        .where({
-          username: newUserInfo.username
-        })
-        .first();
+      const newUserProfile = await Users.find().where({
+        username: newUserInfo.username
+      });
       const token = tokenService.generateToken(user);
       res.status(200).json({
         message: "The account was created successfully.",
         token,
-        user: {
-          id: newUserProfile.id,
-          username: newUserProfile.username
-        }
+        newUserProfile
       });
     } else {
       res.status(404).json({

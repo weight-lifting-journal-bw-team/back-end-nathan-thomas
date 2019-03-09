@@ -1,28 +1,32 @@
 const express = require("express");
 const Users = require("./usersModel.js");
 const bcrypt = require("bcryptjs");
+const sqlErrors = require("../config/sqlErrors.js");
 
-// Creates router for specific API route for import in server.js
 const router = express.Router();
 
 // Get all users request
 router.get("/", async (req, res) => {
   try {
-    const users = await Users.find().select("id", "username");
-    if (users.length) {
+    const users = await Users.find();
+    if (users) {
       res.status(200).json({
         message: "The users were found in the database",
         users
       });
     } else {
-      res
-        .status(404)
-        .json({ message: "The users could not be found in the database." });
+      res.status(404).json({
+        error: true,
+        message: "The users could not be found in the database."
+      });
     }
   } catch (error) {
+    const errorMessage =
+      sqlErrors[error.errno] ||
+      "There was an error retrieving the users from the database."; // References official SQL errors
     res.status(500).json({
-      message: "There was an error retrieving the users from the database.",
-      error
+      error: true,
+      message: errorMessage
     });
   }
 });
@@ -30,7 +34,15 @@ router.get("/", async (req, res) => {
 // Get users by id request
 router.get("/:id", async (req, res) => {
   try {
-    const user = await Users.findById(req.params.id).select("id", "username");
+    const user = await Users.findById(req.params.id).select(
+      "user_id",
+      "username",
+      "first_name",
+      "last_name",
+      "email",
+      "created_at",
+      "updated_at"
+    );
     if (user) {
       res.status(200).json({
         message: "The user was retrieved successfully.",
@@ -42,43 +54,24 @@ router.get("/:id", async (req, res) => {
         .json({ message: "The user could not be found in the database." });
     }
   } catch (error) {
+    const errorMessage =
+      sqlErrors[error.errno] ||
+      "There was an error retrieving the user from the database.";
     res.status(500).json({
-      message: "There was an error retrieving the users from the database.",
-      error
+      error: true,
+      message: errorMessage
     });
   }
 });
 
-// Create user request is a duplicate of register but is here in case it's needed
-// router.post("/", async (req, res) => {
-//   if (!req.body.name) {
-//     return res
-//       .status(404)
-//       .json({ message: "Please include a name and try again." });
-//   }
-//   try {
-//     const newUser = await User.insert(req.body);
-//     if (newUser) {
-//       res.status(200).json({
-//         message: "The new user was created in the database",
-//         newUser
-//       });
-//     } else {
-//       res
-//         .status(404)
-//         .json({ message: "The user could not be created in the database." });
-//     }
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "There was an error creating the user in the database."
-//     });
-//   }
-// });
-
 // Update individual user request
 router.put("/:id", async (req, res) => {
-  if (!req.body.username || !req.body.password) {
-    res.status(404).json({ message: "Please include a name and try again." });
+  const { username, password, first_name, last_name, email } = req.body;
+  if (!username || !password || !first_name || !last_name || !email) {
+    res.status(404).json({
+      error: true,
+      message: "Please include information to update and try again."
+    });
   }
   try {
     const newUserInfo = req.body;

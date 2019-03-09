@@ -5,7 +5,9 @@
 // pg.defaults.ssl = true;
 
 // // Production database connection
-// const dbConnection = process.env.DATABASE_URL || localPgConnection;
+// const dbConnection = process.env.DATABASE_URL || {
+//   filename: "./database/users.db3"
+// };
 
 // // Postgres configurations
 // // Command for running postgres locally:
@@ -70,13 +72,29 @@ module.exports = {
       filename: "./database/users.db3"
     },
     pool: {
-      afterCreate: (conn, done) => {
-        conn.run("PRAGMA foreign_keys = ON", done);
-      }
+      min: 2,
+      max: 10
     },
     migrations: {
-      directory: "./database/migrations",
-      tableName: "knex_migrations"
+      directory: "./database/migrations"
+    },
+    seeds: {
+      directory: "./database/seeds"
+    },
+    useNullAsDefault: true
+  },
+  testing: {
+    client: "sqlite3",
+    connection: {
+      filename: "./database/test.db3"
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    useNullAsDefault: true,
+    migrations: {
+      directory: "./database/migrations"
     },
     seeds: {
       directory: "./database/seeds"
@@ -88,9 +106,8 @@ module.exports = {
     useNullAsDefault: true,
     connection: process.env.DATABASE_URL,
     pool: {
-      afterCreate: (conn, done) => {
-        conn.run("PRAGMA foreign_keys = ON", done);
-      }
+      min: 2,
+      max: 10
     },
     migrations: {
       directory: "./database/migrations",
