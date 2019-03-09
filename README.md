@@ -1,4 +1,4 @@
-# Weight Lifting Journal Back-End
+# WEIGHT LIFTING JOURNAL BACK-END
 
 ## Table of Contents
 
@@ -64,14 +64,14 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
 
 # SUMMARY TABLE OF API ENDPOINTS
 
-| Method | Endpoint                  | Description                                                                                                                                                                                    |
-| ------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | /api/auth/register        | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` in the `body` of the response.                        |
-| POST   | /api/auth/login           | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Wev Token token in the `body` of the response. |
-| GET    | /api/restricted/users     | Retrieves an array of `user` objects and returns a message with the array in the `body` of the response.                                                                                       |
-| GET    | /api/restricted/users/:id | Retrieves a single `user` object and returns a message with the object inside the `body` of the response.                                                                                      |
-| PUT    | /api/restricted/users/:id | Updates a `user` in the database using the information sent inside the `body` of the response.                                                                                                 |
-| DELETE | /api/restricted/users/:id | Removes a `user` from the database using the id sent in the URL parameters of the response.                                                                                                    |
+| Table | Method | Endpoint                  | Description                                                                                                                                                                                    |
+| ----- | ------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Auth  | POST   | /api/auth/register        | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` in the `body` of the response.                        |
+| Auth  | POST   | /api/auth/login           | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Wev Token token in the `body` of the response. |
+| Users | GET    | /api/restricted/users     | Retrieves an array of `user` objects and returns a message with the array in the `body` of the response.                                                                                       |
+| Users | GET    | /api/restricted/users/:id | Retrieves a single `user` object and returns a message with the object inside the `body` of the response.                                                                                      |
+| Users | PUT    | /api/restricted/users/:id | Updates a `user` in the database using the information sent inside the `body` of the response.                                                                                                 |
+| Users | DELETE | /api/restricted/users/:id | Removes a `user` from the database using the id sent in the URL parameters of the response.                                                                                                    |
 
 # AUTH ROUTES
 
