@@ -74,10 +74,10 @@ router.put("/:id", async (req, res) => {
     });
   }
   try {
-    const newUserInfo = req.body;
-    const hash = bcrypt.hashSync(newUserInfo.password, 14);
-    newUserInfo.password = hash;
-    const user = await Users.update(req.params.id, newUserInfo);
+    const updateUser = req.body;
+    const hash = bcrypt.hashSync(updateUser.password, 14);
+    updateUser.password = hash;
+    const user = await Users.update(req.params.id, updateUser);
     if (user) {
       const users = await Users.find().where({
         username: newUserInfo.username
@@ -93,9 +93,12 @@ router.put("/:id", async (req, res) => {
         .json({ message: "The user could not be updated in the databse." });
     }
   } catch (error) {
+    const errorMessage =
+      sqlErrors[error.errno] ||
+      "There was an error retrieving the user from the database.";
     res.status(500).json({
-      message: "There was an error updating the user in the database.",
-      error
+      error: true,
+      message: errorMessage
     });
   }
 });
@@ -115,9 +118,12 @@ router.delete("/:id", async (req, res) => {
         .json({ message: "The user could not be deleted in the database." });
     }
   } catch (error) {
+    const errorMessage =
+      sqlErrors[error.errno] ||
+      "There was an error retrieving the user from the database.";
     res.status(500).json({
-      message: "There was an error while deleting the user in the database.",
-      error
+      error: true,
+      message: errorMessage
     });
   }
 });

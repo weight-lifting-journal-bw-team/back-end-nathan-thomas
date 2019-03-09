@@ -41,14 +41,15 @@ function insert(creds) {
     .then(ids => ids);
 }
 
+// Made async to accomodate returning updated user
 function update(id, changes) {
   return db("users")
-    .where({ id })
+    .where({ user_id: id })
     .update(changes);
 }
 
 function remove(id) {
   return db("users")
-    .where({ id })
+    .where({ user_id: id })
     .del();
 }

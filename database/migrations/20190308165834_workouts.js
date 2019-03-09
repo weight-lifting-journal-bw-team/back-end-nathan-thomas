@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
     tbl.string("workout_subtype", 256);
     tbl.integer("workout_sets").unsigned();
     tbl.integer("workout_reps").unsigned();
-    tbl.integer("workout_time").unsigned();
+    tbl.integer("workout_time").unsigned(); // Stored as minutes
     tbl.integer("workout_distance").unsigned();
     tbl.string("workout_notes", 1000);
     tbl.string("body_region", 128);
