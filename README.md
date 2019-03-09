@@ -1,4 +1,4 @@
-# EXPRESS SERVER BOILERPLATE
+# Weight Lifting Journal Back-End
 
 ## Table of Contents
 
