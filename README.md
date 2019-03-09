@@ -10,14 +10,37 @@
 
 # DATA SCHEMA (DATA STRUCTURES)
 
-Complete data modeling and schema mockups can be found [here](https://www.dbdesigner.net/designer/schema/233119).
+Complete data modeling and schema mockup can be found [here](https://www.dbdesigner.net/designer/schema/233119).
 
 `Users`
 
 ```
   {
-    "username": "admin",
-    "password": "password"
+    "user_id": 1,                             // Integer, provided by server and autoincrements
+    "username": "admin",                      // String, required
+    "password": "password",                   // String, required
+    "first_name": "admin",                    // String, required
+    "last_name": "istrator",                  // String, required
+    "email": "email@gmail.com"                // String, required
+  }
+```
+
+`Workouts`
+
+```
+  {
+    "workout_id": 1,                          // Integer, provided by server and autoincrements
+    "workout_name": "Killing it",             // String, required
+    "workout_date": 1552119140250,            // Integer, required
+    "workout_type": "Weight Lifting",         // String
+    "workout_subtype": "Squats",              // String
+    "workout_sets": 5,                        // Integer
+    "workout_reps": 8,                        // Integer
+    "workout_time": 60,                       // Integer
+    "workout_distance": 50,                   // Integer
+    "workout_notes": "Awesome time.",         // String
+    "body_region": "Legs",                    // String
+    "max_weight": 200                         // Integer
   }
 ```
 
@@ -28,6 +51,13 @@ Complete data modeling and schema mockups can be found [here](https://www.dbdesi
 ```
   username: admin
   password: password
+
+  username: wehavetogoback
+  password: password
+
+  username: big_doc
+  password: password
+
 ```
 
 # SUMMARY TABLE OF API ENDPOINTS
@@ -59,17 +89,21 @@ _HTTP method:_ **[POST]**
 
 #### Body
 
-| name       | type   | required | description    |
-| ---------- | ------ | -------- | -------------- |
-| `username` | String | Yes      | Must be unique |
-| `password` | String | Yes      |                |
+| name         | type   | required | description    |
+| ------------ | ------ | -------- | -------------- |
+| `username`   | String | Yes      | Must be unique |
+| `password`   | String | Yes      |                |
+| `first_name` | String | Yes      |                |
+| `last_name`  | String | Yes      |                |
+| `email`      | String | Yes      |                |
 
 _example:_
 
 ```
 {
   username: "lauren",
-  password: "password123"
+  password: "password123",
+
 }
 ```
 

@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
   } catch (error) {
     const errorMessage =
       sqlErrors[error.errno] ||
-      "There was an error retrieving the users from the database."; // References official SQL errors
+      "There was an error retrieving the users from the database.";
     res.status(500).json({
       error: true,
       message: errorMessage
@@ -89,12 +89,10 @@ router.put("/:id", async (req, res) => {
         users
       });
     } else {
-      res
-        .status(404)
-        .json({
-          error: true,
-          message: "The user could not be updated in the databse."
-        });
+      res.status(404).json({
+        error: true,
+        message: "The user could not be updated in the databse."
+      });
     }
   } catch (error) {
     const errorMessage =
