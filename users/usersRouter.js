@@ -67,19 +67,28 @@ router.put("/:id", async (req, res) => {
     });
   }
   try {
-    const updateUser = req.body;
-    const hash = bcrypt.hashSync(updateUser.password, 14);
-    updateUser.password = hash;
-    const user = await Users.update(req.params.id, updateUser);
-    console.log(user);
-    if (user) {
-      const users = await Users.find().where({
-        username: username
-      });
+    const hash = bcrypt.hashSync(req.body.password, 14);
+    req.body.password = hash;
+    const updatedUser = await Users.update(req.params.id, req.body);
+    if (updatedUser) {
+      const user = await Users.find()
+        .where({
+          username: username
+        })
+        .first();
+      console.log(user);
       res.status(200).json({
         message: "The user was updated successfully.",
-        numUpdate: user,
-        users
+        numUpdate: updatedUser,
+        user: {
+          user_id: user.user_id,
+          username,
+          first_name,
+          last_name,
+          email,
+          created_at: user.created_at,
+          updated_at: user.updated_at
+        }
       });
     } else {
       res.status(404).json({

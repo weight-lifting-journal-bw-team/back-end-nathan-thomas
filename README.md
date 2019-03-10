@@ -18,7 +18,7 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
 
 ```
 {
-  "user_id": 1,                             // Integer, provided by server and autoincrements
+  "user_id": 1,                             // Integer, primary key provided by server and autoincrements
   "username": "admin",                      // String, required
   "password": "password",                   // String, required
   "first_name": "admin",                    // String, required
@@ -31,7 +31,7 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
 
 ```
 {
-  "workout_id": 1,                          // Integer, provided by server and autoincrements
+  "workout_id": 1,                          // Integer, primary key provided by server and autoincrements
   "workout_name": "Killing it",             // String, required
   "workout_date": 1552119140250,            // Integer, required
   "workout_type": "Weight Lifting",         // String
@@ -42,7 +42,9 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
   "workout_distance": 50,                   // Integer
   "workout_notes": "Awesome time.",         // String
   "body_region": "Legs",                    // String
-  "max_weight": 200                         // Integer
+  "max_weight": 200,                        // Integer
+  "progress_picture": "<url here>"          // String
+  "user_id": 1                              // Integer, foreign key reference to "users" table
 }
 ```
 
@@ -54,10 +56,10 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
   username: admin
   password: password
 
-  username: wehavetogoback
+  username: mcfly
   password: password
 
-  username: big_doc
+  username: bigdoc
   password: password
 
 ```
