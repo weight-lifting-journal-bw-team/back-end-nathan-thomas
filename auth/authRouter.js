@@ -8,34 +8,37 @@ const tokenService = require("../auth/tokenService.js");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-  const creds = req.body;
-  if (
-    !creds.username ||
-    !creds.password ||
-    !creds.first_name ||
-    !creds.last_name ||
-    !creds.email
-  ) {
+  const { username, password, first_name, last_name, email } = req.body;
+  if (!username || !password || !first_name || !last_name || !email) {
     return res.status(406).json({
       error: true,
-      message: "Please include a registration credentials and try again."
+      message: "Please include required registration credentials and try again."
     });
   }
   try {
     // Encryption of password
-    const newUserInfo = req.body;
-    const hash = bcrypt.hashSync(newUserInfo.password, 14); // Must be the same as the seeds
-    newUserInfo.password = hash;
-    const user = await Users.insert(newUserInfo);
+    const hash = bcrypt.hashSync(req.body.password, 14); // Must be the same as the seeds
+    req.body.password = hash;
+    const user = await Users.insert(req.body);
     if (user) {
-      const newUserProfile = await Users.find().where({
-        username: newUserInfo.username
-      });
+      const newUserProfile = await Users.find()
+        .where({
+          username: newUserInfo.username
+        })
+        .first();
       const token = tokenService.generateToken(user);
       res.status(200).json({
         message: "The account was created successfully.",
         token,
-        newUserProfile
+        user: {
+          user_id: newUserProfile.user_id,
+          username,
+          first_name,
+          last_name,
+          email,
+          created_at: newUserProfile.created_at,
+          updated_at: newUserProfile.updated_at
+        }
       });
     } else {
       res.status(404).json({

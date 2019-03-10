@@ -76,7 +76,6 @@ router.put("/:id", async (req, res) => {
           username: username
         })
         .first();
-      console.log(user);
       res.status(200).json({
         message: "The user was updated successfully.",
         numUpdate: updatedUser,
