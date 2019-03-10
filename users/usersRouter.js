@@ -1,7 +1,6 @@
 const express = require("express");
 const Users = require("./usersModel.js");
 const bcrypt = require("bcryptjs");
-const sqlErrors = require("../config/sqlErrors.js");
 
 const router = express.Router();
 
@@ -21,12 +20,9 @@ router.get("/", async (req, res) => {
       });
     }
   } catch (error) {
-    const errorMessage =
-      sqlErrors[error.errno] ||
-      "There was an error retrieving the users from the database.";
     res.status(500).json({
       error: true,
-      message: errorMessage
+      message: "There was an error retrieving the users from the database."
     });
   }
 });
@@ -54,12 +50,9 @@ router.get("/:id", async (req, res) => {
         .json({ message: "The user could not be found in the database." });
     }
   } catch (error) {
-    const errorMessage =
-      sqlErrors[error.errno] ||
-      "There was an error retrieving the user from the database.";
     res.status(500).json({
       error: true,
-      message: errorMessage
+      message: "There was an error retrieving the user from the database."
     });
   }
 });
@@ -95,12 +88,9 @@ router.put("/:id", async (req, res) => {
       });
     }
   } catch (error) {
-    const errorMessage =
-      sqlErrors[error.errno] ||
-      "There was an error retrieving the user from the database.";
     res.status(500).json({
       error: true,
-      message: errorMessage
+      message: "There was an error retrieving the user from the database."
     });
   }
 });
@@ -120,12 +110,9 @@ router.delete("/:id", async (req, res) => {
         .json({ message: "The user could not be deleted in the database." });
     }
   } catch (error) {
-    const errorMessage =
-      sqlErrors[error.errno] ||
-      "There was an error retrieving the user from the database.";
     res.status(500).json({
       error: true,
-      message: errorMessage
+      message: "There was an error retrieving the user from the database."
     });
   }
 });

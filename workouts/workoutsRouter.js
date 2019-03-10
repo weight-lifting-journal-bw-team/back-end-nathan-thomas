@@ -1,17 +1,30 @@
 const express = require("express");
-const Workouts = require("./workoutsRouter.js");
+const Workouts = require("./workoutsModel.js");
 
 const router = express();
 
-router.get("/", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    // Build out request
+    const workout = await Workouts.findByWorkoutId(req.params.id);
+    if (workout) {
+      res
+        .status(200)
+        .json({ message: "The workout was retrieved successfully.", workout });
+    } else {
+      res.status(404).json({
+        error: true,
+        message: "The workout could not be found in the database."
+      });
+    }
   } catch (error) {
-    // Build out request
+    res.status(500).json({
+      error: true,
+      message: "There was an error retrieving the workout from the database"
+    });
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/user:id", async (req, res) => {
   try {
     // Build out request
   } catch (error) {

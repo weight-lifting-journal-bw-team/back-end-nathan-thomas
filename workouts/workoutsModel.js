@@ -1,20 +1,20 @@
 const db = require("../database/dbConfig.js");
 
 module.exports = {
-  find,
-  findById,
+  findAllByUserId,
+  findByWorkoutId,
   insert,
   remove,
   update
 };
 
-function find() {
-  return db("workouts");
+function findAllByUserId(userId) {
+  return db("workouts").where({ user_id: userId });
 }
 
-function findById(id) {
+function findByWorkoutId(id) {
   return db("workouts")
-    .where({ id })
+    .where({ workout_id: id })
     .first();
 }
 
