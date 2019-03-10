@@ -31,12 +31,12 @@ function insert(workout) {
 
 function update(id, changes) {
   return db("workouts")
-    .where({ id })
+    .where({ workout_id: id })
     .update(changes);
 }
 
 function remove(id) {
   return db("workouts")
-    .where({ id })
+    .where({ workout_id: id })
     .del();
 }

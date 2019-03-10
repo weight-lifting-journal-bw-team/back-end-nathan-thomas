@@ -112,19 +112,15 @@ router.put("/:id", async (req, res) => {
   try {
     const updatedWorkout = await Workouts.update(req.params.id, req.body);
     if (updatedWorkout) {
-      res
-        .status(200)
-        .json({
-          message: "The workout was updated successfully in the database.",
-          workout: updatedWorkout
-        });
+      res.status(200).json({
+        message: "The workout was updated successfully in the database.",
+        workout: updatedWorkout
+      });
     } else {
-      res
-        .status(404)
-        .json({
-          error: true,
-          message: "The workout could not be found to be updated."
-        });
+      res.status(404).json({
+        error: true,
+        message: "The workout could not be found to be updated."
+      });
     }
   } catch (error) {
     res.status(500).json({
@@ -138,6 +134,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const removedWorkout = await Workouts.remove(req.params.id);
+    console.log(removedWorkout);
     if (removedWorkout) {
       res.status(200).json({
         message: "The workout was deleted successfully.",
