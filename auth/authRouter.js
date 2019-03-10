@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
   ) {
     return res.status(406).json({
       error: true,
-      message: "Please include a username and password and try again."
+      message: "Please include a registration credentials and try again."
     });
   }
   try {
