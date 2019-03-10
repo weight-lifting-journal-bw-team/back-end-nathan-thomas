@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: "There was an error retrieving the users from the database."
+      message: "There was an error processing your request."
     });
   }
 });
@@ -52,7 +52,7 @@ router.get("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: "There was an error retrieving the user from the database."
+      message: "There was an error processing your request."
     });
   }
 });
@@ -90,7 +90,7 @@ router.put("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: "There was an error retrieving the user from the database."
+      message: "There was an error processing your request."
     });
   }
 });
@@ -112,7 +112,7 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: "There was an error retrieving the user from the database."
+      message: "There was an error processing your request."
     });
   }
 });

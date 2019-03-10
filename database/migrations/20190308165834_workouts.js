@@ -15,13 +15,15 @@ exports.up = function(knex, Promise) {
     tbl.string("workout_notes", 1000);
     tbl.string("body_region", 128);
     tbl.integer("max_weight").unsigned();
+    tbl.string("progress_picture", 1000);
 
     // Foreign key links to specific user
     tbl
       .integer("user_id")
       .unsigned()
       .references("user_id")
-      .inTable("users");
+      .inTable("users")
+      .notNullable();
 
     // Tracks account creation/update
     tbl.timestamps(true, true);

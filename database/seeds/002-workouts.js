@@ -18,6 +18,7 @@ exports.seed = function(knex, Promise) {
             "Had to hoverboard away from some crazy futuristic bullies.",
           body_region: "Legs",
           max_weight: null,
+          progress_picture: null,
           user_id: 2
         },
         {
@@ -32,6 +33,7 @@ exports.seed = function(knex, Promise) {
           workout_notes: "Roads? Where we're going we don't need roads....",
           body_region: "Full Body",
           max_weight: null,
+          progress_picture: null,
           user_id: 3
         },
         {
@@ -47,6 +49,7 @@ exports.seed = function(knex, Promise) {
             "I know you just sent me back to the future, but I'm back. I'm back from the future.",
           body_region: "Full Body",
           max_weight: null,
+          progress_picture: null,
           user_id: 3
         },
         {
@@ -62,6 +65,7 @@ exports.seed = function(knex, Promise) {
             "Oh my God. They found me. I don't know how, but they found me. Run for it, Marty!!",
           body_region: "Full Body",
           max_weight: null,
+          progress_picture: null,
           user_id: 3
         },
         {
@@ -77,6 +81,7 @@ exports.seed = function(knex, Promise) {
             "Wait a minute. Wait a minute Doc, uh, are you telling me you built a time machine … out of a DeLorean?",
           body_region: "Legs",
           max_weight: 215,
+          progress_picture: null,
           user_id: 2
         }
       ]);
