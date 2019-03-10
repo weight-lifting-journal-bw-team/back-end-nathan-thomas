@@ -24,11 +24,26 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/user:id", async (req, res) => {
+router.get("/user/:id", async (req, res) => {
   try {
-    // Build out request
+    const workouts = await Workouts.findAllByUserId(req.params.id);
+    if (workouts.length) {
+      res.status(200).json({
+        message: "The workout(s) for that user were found in the database.",
+        workouts
+      });
+    } else {
+      res.status(404).json({
+        error: true,
+        message: "No workouts for that user were found in the database."
+      });
+    }
   } catch (error) {
-    // Build out request
+    res.status(500).json({
+      error: true,
+      message:
+        "There was an error retrieving the workouts for that user from the database"
+    });
   }
 });
 
