@@ -23,6 +23,7 @@ exports.up = function(knex, Promise) {
       .unsigned()
       .references("user_id")
       .inTable("users")
+      .onDelete("CASCADE")
       .notNullable();
 
     // Tracks account creation/update
