@@ -42,7 +42,6 @@ function insert(creds) {
     .then(ids => 1);
 }
 
-// Made async to accomodate returning updated user
 function update(id, changes) {
   return db("users")
     .where({ user_id: id })

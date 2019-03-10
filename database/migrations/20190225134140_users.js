@@ -11,12 +11,16 @@ exports.up = function(knex, Promise) {
     tbl.string("first_name", 256).notNullable();
     tbl.string("last_name", 256).notNullable();
     tbl.string("email", 256).notNullable();
+    tbl.string("profile_picture", 1000);
 
     // Tracks account creation/update
     tbl.timestamps(true, true);
 
     // Sets unique username to user
     tbl.unique("username", "uq_user_username");
+
+    // Sets unique email to user
+    tbl.unique("email", "uq_user_email");
   });
 };
 

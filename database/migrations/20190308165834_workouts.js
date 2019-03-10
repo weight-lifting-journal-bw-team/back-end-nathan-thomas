@@ -12,9 +12,9 @@ exports.up = function(knex, Promise) {
     tbl.integer("workout_reps").unsigned();
     tbl.integer("workout_time").unsigned(); // Stored as minutes
     tbl.integer("workout_distance").unsigned(); // Stored as feet
-    tbl.string("workout_notes", 1000);
+    tbl.string("workout_notes", 256);
     tbl.string("body_region", 128);
-    tbl.integer("max_weight").unsigned();
+    tbl.integer("max_weight").unsigned(); // Stored as lbs
     tbl.string("progress_picture", 1000);
 
     // Foreign key links to specific user

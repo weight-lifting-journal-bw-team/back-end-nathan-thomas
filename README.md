@@ -9,6 +9,7 @@
   - [Register](#register)
   - [Login](#login)
 - [User Routes](#user-routes)
+- [Workouts Routes](#workouts-routes)
 
 # DATA SCHEMA (DATA STRUCTURES)
 
@@ -18,12 +19,13 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
 
 ```
 {
-  "user_id": 1,                             // Integer, primary key provided by server and autoincrements
+  "user_id": 1,                             // Integer (primary key provided by server and autoincrements)
   "username": "admin",                      // String, required
   "password": "password",                   // String, required
   "first_name": "admin",                    // String, required
   "last_name": "istrator",                  // String, required
   "email": "email@gmail.com"                // String, required
+  "profile_picture": <url string>           // String
 }
 ```
 
@@ -31,7 +33,7 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
 
 ```
 {
-  "workout_id": 1,                          // Integer, primary key provided by server and autoincrements
+  "workout_id": 1,                          // Integer (primary key provided by server and autoincrements)
   "workout_name": "Killing it",             // String, required
   "workout_date": 1552119140250,            // Integer, required
   "workout_type": "Weight Lifting",         // String
@@ -44,7 +46,7 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
   "body_region": "Legs",                    // String
   "max_weight": 200,                        // Integer
   "progress_picture": "<url here>"          // String
-  "user_id": 1                              // Integer, foreign key reference to "users" table
+  "user_id": 1                              // Integer, required (foreign key reference to "users" table)
 }
 ```
 
@@ -66,14 +68,20 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
 
 # SUMMARY TABLE OF API ENDPOINTS
 
-| Table | Method | Endpoint                  | Description                                                                                                                                                                                    |
-| ----- | ------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| auth  | POST   | /api/auth/register        | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` in the `body` of the response.                        |
-| auth  | POST   | /api/auth/login           | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Wev Token token in the `body` of the response. |
-| users | GET    | /api/restricted/users     | Retrieves an array of `user` objects and returns a message with the array in the `body` of the response.                                                                                       |
-| users | GET    | /api/restricted/users/:id | Retrieves a single `user` object and returns a message with the object inside the `body` of the response.                                                                                      |
-| users | PUT    | /api/restricted/users/:id | Updates a `user` in the database using the information sent inside the `body` of the response.                                                                                                 |
-| users | DELETE | /api/restricted/users/:id | Removes a `user` from the database using the id sent in the URL parameters of the response.                                                                                                    |
+| Table    | Method | Endpoint                          | Description                                                                                                                                                                                    |
+| -------- | ------ | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| auth     | POST   | /api/auth/register                | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` and a JSON Web Token in the `body` of the response.   |
+| auth     | POST   | /api/auth/login                   | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Web Token token in the `body` of the response. |
+| users    | GET    | /api/restricted/users             | Retrieves an array of `user` objects and returns a message with the array in the `body` of the response.                                                                                       |
+| users    | GET    | /api/restricted/users/:id         | Retrieves a single `user` object and returns a message with the object inside the `body` of the response.                                                                                      |
+| users    | PUT    | /api/restricted/users/:id         | Updates a `user` in the database using the information sent inside the `body` of the request.                                                                                                  |
+| users    | DELETE | /api/restricted/users/:id         | Removes a `user` from the database using the id sent in the URL parameters of the response.                                                                                                    |
+| workouts | GET    | /api/restricted/workouts          | Retrieves an array of `workouts` objects and returns a message with the array in the `body` of the response.                                                                                   |
+| workouts | GET    | /api/restricted/workouts/:id      | Retrieves a single `workouts` object using the id sent in the URL parameters of the request and returns a message with the object inside the `body` of the response.                           |
+| workouts | GET    | /api/restricted/workouts/user/:id | Retrieves an array of `workouts` objects for a single user using the id sent in the URL parameters of the request and returns a message with the array inside the `body` of the response.      |
+| workouts | POST   | /api/restricted/workouts          | Uses the information sent inside the `body` to create a new `workout` for a specified user by included `user_id` and returns a message along with the new `workout`.                           |
+| workouts | PUT    | /api/restricted/workouts/:id      | Uses the information sent inside the `body` to update a single `workout` using the id sent in the URL parameters of the request and returns a message along with the updated `workout`.        |
+| workouts | DELETE | /api/restricted/workouts/:id      | Removes a `workout` in the database using the id sent in the URL parameters of the request.                                                                                                    |
 
 # AUTH ROUTES
 
@@ -93,13 +101,14 @@ _HTTP method:_ **[POST]**
 
 #### Body
 
-| name         | type   | required | description    |
-| ------------ | ------ | -------- | -------------- |
-| `username`   | String | Yes      | Must be unique |
-| `password`   | String | Yes      |                |
-| `first_name` | String | Yes      |                |
-| `last_name`  | String | Yes      |                |
-| `email`      | String | Yes      |                |
+| name              | type   | required | description    |
+| ----------------- | ------ | -------- | -------------- |
+| `username`        | String | Yes      | Must be unique |
+| `password`        | String | Yes      |                |
+| `first_name`      | String | Yes      |                |
+| `last_name`       | String | Yes      |                |
+| `email`           | String | Yes      | Must be unique |
+| `profile_picture` | String | No       |                |
 
 _example:_
 
