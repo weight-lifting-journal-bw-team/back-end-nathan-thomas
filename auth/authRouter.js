@@ -20,10 +20,11 @@ router.post("/register", async (req, res) => {
     const hash = bcrypt.hashSync(req.body.password, 14); // Must be the same as the seeds
     req.body.password = hash;
     const user = await Users.insert(req.body);
+    console.log(user);
     if (user) {
       const newUserProfile = await Users.find()
         .where({
-          username: newUserInfo.username
+          username
         })
         .first();
       const token = tokenService.generateToken(user);
@@ -60,26 +61,14 @@ router.post("/login", async (req, res) => {
       error: true,
       message: "Please include a username and password and try again."
     });
-  }
-  try {
-    const user = await Users.find()
-      .where({ username: creds.username })
-      .first();
-    if (user && bcrypt.compareSync(creds.password, user.password)) {
-      const token = tokenService.generateToken(user);
-      const {
-        user_id,
-        username,
-        first_name,
-        last_name,
-        email,
-        created_at,
-        updated_at
-      } = user;
-      res.status(200).json({
-        message: "The user was logged in successfully.",
-        token,
-        user: {
+  } else {
+    try {
+      const user = await Users.find()
+        .where({ username: creds.username })
+        .first();
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = tokenService.generateToken(user);
+        const {
           user_id,
           username,
           first_name,
@@ -87,19 +76,32 @@ router.post("/login", async (req, res) => {
           email,
           created_at,
           updated_at
-        } // Expand with additional info as needed
-      });
-    } else {
-      res.status(404).json({
+        } = user;
+        res.status(200).json({
+          message: "The user was logged in successfully.",
+          token,
+          user: {
+            user_id,
+            username,
+            first_name,
+            last_name,
+            email,
+            created_at,
+            updated_at
+          } // Expand with additional info as needed
+        });
+      } else {
+        res.status(404).json({
+          error: true,
+          message: "The requested content does not exist."
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
         error: true,
-        message: "The requested content does not exist."
+        message: "There was a problem with your request."
       });
     }
-  } catch (error) {
-    res.status(500).json({
-      error: true,
-      message: "There was a problem with your request."
-    });
   }
 });
 

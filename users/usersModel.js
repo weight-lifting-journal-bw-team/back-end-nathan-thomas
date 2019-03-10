@@ -39,7 +39,7 @@ function findById(id) {
 function insert(creds) {
   return db("users")
     .insert(creds)
-    .then(ids => ids);
+    .then(ids => 1);
 }
 
 // Made async to accomodate returning updated user
