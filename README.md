@@ -119,6 +119,7 @@ _example:_
   "first_name": "admin",
   "last_name": "istrator",
   "email": "email@gmail.com"
+  "profile_picture": <image upload>
 }
 ```
 
@@ -131,13 +132,14 @@ _example:_
 ```
 {
   "message": "The account was created successfully."
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTQ0MzM1NjUxLCJleHAiOjE1NzU4OTMyNTF9.uqd2OHBYkGQpwjLTPPiPWYkYOKlG7whQDFkk46xGXoE",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI3IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTQ0MzM1NjUxLCJleHAiOjE1NzU4OTMyNTF9.uqd2OHBYkGQpwjLTPPiPWYkYOKlG7whQDFkk46xFXoX",
   "user": {
     "user_id": 1,
-    "username": "nwthomas",
-    "first_name": "nathan",
-    "last_name": "thomas",
-    "email": "nwthomas@me.com",
+    "username": "admin",
+    "first_name": "admin",
+    "last_name": "istrator",
+    "email": "email@gmail.com",
+    "profile_picture": <image upload>,
     "created_at": "2019-03-09 08:26:34",
     "updated_at": "2019-03-09 08:26:34"
   }

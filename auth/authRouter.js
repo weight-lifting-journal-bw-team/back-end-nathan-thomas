@@ -3,11 +3,12 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const Users = require("../users/usersModel.js");
 const tokenService = require("../auth/tokenService.js");
+const authConstraints = require("./authConstraints.js");
 
 // Creates router for specific API route
 const router = express.Router();
 
-router.post("/register", async (req, res) => {
+router.post("/register", authConstraints, async (req, res) => {
   const { username, password, first_name, last_name, email } = req.body;
   if (!username || !password || !first_name || !last_name || !email) {
     return res.status(406).json({
@@ -20,7 +21,6 @@ router.post("/register", async (req, res) => {
     const hash = bcrypt.hashSync(req.body.password, 14); // Must be the same as the seeds
     req.body.password = hash;
     const user = await Users.insert(req.body);
-    console.log(user);
     if (user) {
       const newUserProfile = await Users.find()
         .where({
@@ -48,9 +48,10 @@ router.post("/register", async (req, res) => {
       });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: true, message: "There was a problem with your request." });
+    res.status(500).json({
+      error: true,
+      message: "There was a problem with your request."
+    });
   }
 });
 
