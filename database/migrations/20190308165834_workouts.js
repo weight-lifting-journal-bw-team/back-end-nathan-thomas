@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
 
     // Workout table columns
     tbl.string("workout_name", 128).notNullable();
-    tbl.integer("workout_date").unsigned();
+    tbl.bigInteger("workout_date").unsigned();
     tbl.string("workout_type", 256);
     tbl.string("workout_subtype", 256);
     tbl.integer("workout_sets").unsigned();

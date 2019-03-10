@@ -42,7 +42,7 @@ exports.seed = function(knex, Promise) {
           workout_sets: null,
           workout_reps: null,
           workout_time: 1,
-          workout_distance: 18906388960876973037,
+          workout_distance: 18906,
           workout_notes:
             "I know you just sent me back to the future, but I'm back. I'm back from the future.",
           body_region: "Full Body",
