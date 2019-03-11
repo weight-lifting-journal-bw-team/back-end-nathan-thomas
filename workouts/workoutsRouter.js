@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: "There was an error processing your request."
+      message: "There was a problem with your request."
     });
   }
 });
@@ -49,7 +49,7 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({
       error: true,
       workouts: {},
-      message: "There was an error processing your request."
+      message: "There was a problem with your request."
     });
   }
 });
@@ -75,7 +75,7 @@ router.get("/user/:id", async (req, res) => {
     res.status(500).json({
       error: true,
       workouts: [],
-      message: "There was an error processing your request."
+      message: "There was a problem with your request."
     });
   }
 });
@@ -86,7 +86,8 @@ router.post("/", async (req, res) => {
     return res.status(406).json({
       error: true,
       workout: [],
-      message: "Please include workout details and try again."
+      message:
+        "Please include required workout name and user ID details and try again."
     });
   }
   try {
@@ -108,7 +109,7 @@ router.post("/", async (req, res) => {
     res.status(500).json({
       error: true,
       workout: [],
-      message: "There was an error processing your request."
+      message: "There was a problem with your request."
     });
   }
 });
@@ -144,7 +145,7 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({
       error: true,
       workout: [],
-      message: "There was an error processing your request.",
+      message: "There was a problem with your request.",
       numUpdated: 0
     });
   }
@@ -171,7 +172,7 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: "There was an error processing your request.",
+      message: "There was a problem with your request.",
       numDeleted: 0
     });
   }
