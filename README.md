@@ -9,6 +9,10 @@
   - [Register](#register)
   - [Login](#login)
 - [User Routes](#user-routes)
+  - [Get Users](#get-all-users)
+  - [Get User](#get-user-by-id)
+  - [Update User](#update-user)
+  - [Delete User](#delete-user)
 - [Workouts Routes](#workouts-routes)
 
 # DATA SCHEMA (DATA STRUCTURES)
@@ -291,9 +295,9 @@ _example:_
 
 # USER ROUTES
 
-## **GET ALL USERS**
+## **GET USERS**
 
-### **Gets all users**
+### **Get all users**
 
 _Method Url:_ `/api/restricted/users`
 
@@ -305,10 +309,6 @@ _HTTP method:_ **[GET]**
 | --------------- | ------ | -------- | ------------------------ |
 | `Content-Type`  | String | Yes      | Must be application/json |
 | `Authorization` | String | Yes      | JSON Web Token           |
-
-#### Body
-
-Nothing is required in the body for this route.
 
 #### Response
 
@@ -370,9 +370,9 @@ Nothing is required in the body for this route.
 
 ---
 
-## **GET USER BY ID**
+## **GET USER**
 
-### **Get user by the user ID**
+### **Get user by user ID**
 
 _Method Url:_ `/api/auth/register/:id`
 
@@ -435,6 +435,163 @@ _HTTP method:_ **[GET]**
   "error": true,
   "user": {},
   "message": "There was an error processing your request."
+}
+```
+
+---
+
+## **UPDATE USER**
+
+### **Update user by user ID**
+
+_Method Url:_ `/api/auth/register/:id`
+
+_HTTP method:_ **[PUT]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name      | type    | required | description           |
+| --------- | ------- | -------- | --------------------- |
+| `user_id` | Integer | Yes      | ID of a specific user |
+
+#### Body
+
+| name              | type   | required | description    |
+| ----------------- | ------ | -------- | -------------- |
+| `username`        | String | Yes      | Must be unique |
+| `password`        | String | Yes      |                |
+| `first_name`      | String | Yes      |                |
+| `last_name`       | String | Yes      |                |
+| `email`           | String | Yes      | Must be unique |
+| `profile_picture` | String | No       |                |
+
+#### Response
+
+##### 200 (OK)
+
+> If a user with the specified ID in the URL parameters is updated successfully in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your profile was updated successfully.",
+  "numUpdated": 1,
+  "user": {
+    "user_id": 1,
+    "username": "admin",
+    "first_name": "admin",
+    "last_name": "istrator",
+    "email": "email@gmail.com",
+    "profile_picture": <cloudinary URL>,
+    "created_at": "2019-03-09 08:26:34",
+    "updated_at": "2019-03-09 08:26:34"
+  }
+}
+```
+
+##### 406 (Not Acceptable)
+
+> If the required data to update the user are not sent in the body, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "user": {},
+  "message": "Please include all required fields and try again.",
+  "numUpdated": 0
+}
+```
+
+##### 404 (Bad Request)
+
+> If the profile cannot be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "user": {},
+  "message": "Your profile could not be updated.",
+  "numUpdated": 0
+}
+```
+
+##### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "user": {},
+  "message": "There was an error processing your request."
+}
+```
+
+---
+
+## **DELETE USER**
+
+### **Delete user by user ID**
+
+_Method Url:_ `/api/auth/register/:id`
+
+_HTTP method:_ **[DELETE]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name      | type    | required | description           |
+| --------- | ------- | -------- | --------------------- |
+| `user_id` | Integer | Yes      | ID of a specific user |
+
+#### Response
+
+##### 200 (OK)
+
+> If the user with the specified ID in the URL parameters is deleted successfully in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your profile was deleted successfully.",
+  "numDeleted": 1,
+}
+```
+
+##### 404 (Bad Request)
+
+> If the profile cannot be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "message": "Your profile could not be deleted.",
+  "numDeleted": 0
+}
+```
+
+##### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "message": "There was an error processing your request.",
+  numDeleted: 0
 }
 ```
 

@@ -60,7 +60,7 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const { username, password, first_name, last_name, email } = req.body;
   if (!username || !password || !first_name || !last_name || !email) {
-    res.status(404).json({
+    res.status(406).json({
       error: true,
       user: {},
       message: "Please include all required fields and try again.",
