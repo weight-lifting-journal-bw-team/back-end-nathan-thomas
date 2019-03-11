@@ -18,6 +18,8 @@
   - [Get Workout](#get-workout)
   - [Get Workouts by User](#get-workouts-by-user)
   - [Create Workout](#create-workout)
+  - [Update Workout](#update-workout)
+  - [Delete Workout](#delete-workout)
 
 # DATA SCHEMA (DATA STRUCTURES)
 
@@ -964,7 +966,7 @@ _example_
 ```
 {
   "error": true,
-  "user": [],
+  "workout": [],
   "message": "Please include required workout name and user ID details and try again."
 }
 ```
@@ -976,7 +978,7 @@ _example_
 ```
 {
   "error": true,
-  "workouts": [],
+  "workout": [],
   "message": "Your workout could not be created."
 }
 ```
@@ -988,9 +990,200 @@ _example_
 ```
 {
   "error": true,
-  "workouts": [],
+  "workout": [],
   "message": "There was a problem with your request."
 }
 ```
 
 ---
+
+## **UPDATE WORKOUT**
+
+### **Update workout by workout ID**
+
+_Method Url:_ `/api/restricted/workouts/:id`
+
+_HTTP method:_ **[PUT]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Body
+
+| name               | type    | required | description                         |
+| ------------------ | ------- | -------- | ----------------------------------- |
+| `workout_name`     | String  | Yes      |                                     |
+| `workout_date`     | Integer | No       | Created from Date.now()             |
+| `workout_type`     | String  | No       |                                     |
+| `workout_subtype`  | String  | No       |                                     |
+| `workout_reps`     | Integer | No       |                                     |
+| `workout_sets`     | Integer | No       |                                     |
+| `workout_time`     | Integer | No       | Stored as minutes                   |
+| `workout_distance` | Integer | No       | Stored as feet                      |
+| `workout_notes`    | String  | No       |                                     |
+| `body_region`      | String  | No       |                                     |
+| `max_weight`       | Integer | No       | Stored as lbs                       |
+| `progress_picture` | String  | No       |                                     |
+| `user_id`          | Integer | Yes      | Foreign key reference to user table |
+
+_example_
+
+```
+{
+  "workout_name": "Hoverboarding",
+  "workout_date": "1552286585353",
+  "workout_type": "Cardio",
+  "workout_subtype": "Skateboarding",
+  "workout_sets": null,
+  "workout_reps": null,
+  "workout_time": 60,
+  "workout_distance": 500,
+  "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
+  "body_region": "Legs",
+  "max_weight": null,
+  "progress_picture": null,
+  "user_id": 2,
+}
+```
+
+#### Response
+
+##### 200 (OK)
+
+> If the workout is successfully updated the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your workout was updated successfully.",
+  "workout": {
+    "workout_id": 1,
+    "workout_name": "Hoverboarding",
+    "workout_date": "1552286585353",
+    "workout_type": "Cardio",
+    "workout_subtype": "Skateboarding",
+    "workout_sets": null,
+    "workout_reps": null,
+    "workout_time": 60,
+    "workout_distance": 500,
+    "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
+    "body_region": "Legs",
+    "max_weight": null,
+    "progress_picture": null,
+    "user_id": 2,
+    "created_at": "2019-03-11T06:43:05.407Z",
+    "updated_at": "2019-03-11T06:43:05.407Z"
+  },
+  numUpdated: 1
+}
+```
+
+##### 406 (Not Acceptable)
+
+> If the required data to update the workout is not sent in the body, the endpoint will return an HTTP response with a status code `406` and a body as below.
+
+```
+{
+  "error": true,
+  "user": [],
+  "message": "Please include required workout name and user ID details and try again.",
+  "numUpdated": 0
+}
+```
+
+##### 404 (Not Found)
+
+> If no workout for the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "workouts": [],
+  "message": "Your workout could not be found to be updated.",
+  "numUpdated": 0
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "workouts": [],
+  "message": "There was a problem with your request.",
+  "numUpdated": 0
+}
+```
+
+---
+
+## **DELETE WORKOUT**
+
+### **Delete workout by workout ID**
+
+_Method Url:_ `/api/restricted/workouts/:id`
+
+_HTTP method:_ **[DELETE]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name         | type    | required | description              |
+| ------------ | ------- | -------- | ------------------------ |
+| `workout_id` | Integer | Yes      | ID of a specific workout |
+
+#### Response
+
+##### 200 (OK)
+
+> If the workout is found in the database and deleted, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your workout was deleted successfully.",
+  "numDeleted": 1
+}
+```
+
+##### 404 (Not Found)
+
+> If no workouts for the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "message": "Your workout could not be found to be deleted.",
+  "numDeleted": 0
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "message": "There was a problem with your request.",
+  "numDeleted": 0
+}
+```
+
+---
+
+If you made it all the way down here, you're a champ. Thanks for using my API.
+
+- Nathan Thomas

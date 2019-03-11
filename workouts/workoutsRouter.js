@@ -120,7 +120,8 @@ router.put("/:id", async (req, res) => {
     return res.status(406).json({
       error: true,
       workout: [],
-      message: "Please include workout details and try again.",
+      message:
+        "Please include required workout name and user ID details and try again.",
       numUpdated: 0
     });
   }
