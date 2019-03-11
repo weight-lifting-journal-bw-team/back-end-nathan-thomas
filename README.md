@@ -1,5 +1,13 @@
 # WEIGHT LIFTING JOURNAL BACK-END SERVER
 
+## Introduction
+
+This repository contains the back-end and all associated server files for the Weight Lifting Journal application.
+
+## Project Management
+
+Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back-end) board for information about the status of this repository and remaining tasks to be completed.
+
 ## Table of Contents
 
 - [Data Schema](#data-schema-data-structures)
