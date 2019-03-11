@@ -93,11 +93,26 @@ router.post("/", async (req, res) => {
   try {
     const workout = await Workouts.insert(req.body);
     if (workout) {
-      res.status(200).json({
-        error: false,
-        message: "Your workout was created successfully.",
-        workout
-      });
+      const newWorkout = await Workouts.find()
+        .where({
+          workout_name: req.body.workout_name,
+          workout_date: req.body.workout_date,
+          user_id: req.body.user_id
+        })
+        .first();
+      if (newWorkout) {
+        res.status(200).json({
+          error: false,
+          message: "Your workout was created successfully.",
+          workout: newWorkout
+        });
+      } else {
+        res.status(404).json({
+          error: true,
+          workout: [],
+          message: "Your workout was created but could not be returned."
+        });
+      }
     } else {
       res.status(404).json({
         error: true,
