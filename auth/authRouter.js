@@ -8,14 +8,8 @@ const authConstraints = require("./authConstraints.js");
 // Creates router for specific API route
 const router = express.Router();
 
+// New user registration request
 router.post("/register", authConstraints, async (req, res) => {
-  const { username, password, first_name, last_name, email } = req.body;
-  if (!username || !password || !first_name || !last_name || !email) {
-    return res.status(406).json({
-      error: true,
-      message: "Please include required registration credentials and try again."
-    });
-  }
   try {
     // Encryption of password
     const hash = bcrypt.hashSync(req.body.password, 14); // Must be the same as the seeds
@@ -29,7 +23,7 @@ router.post("/register", authConstraints, async (req, res) => {
         .first();
       const token = tokenService.generateToken(user);
       res.status(200).json({
-        message: "The account was created successfully.",
+        message: "Your account was created successfully.",
         token,
         user: {
           user_id: newUserProfile.user_id,
@@ -44,7 +38,7 @@ router.post("/register", authConstraints, async (req, res) => {
     } else {
       res.status(404).json({
         error: true,
-        message: "The account could not be created in the database."
+        message: "Your account could not be created in the database."
       });
     }
   } catch (error) {
@@ -55,6 +49,7 @@ router.post("/register", authConstraints, async (req, res) => {
   }
 });
 
+// User login request
 router.post("/login", async (req, res) => {
   let creds = req.body;
   if (!creds.username || !creds.password) {
@@ -79,7 +74,7 @@ router.post("/login", async (req, res) => {
           updated_at
         } = user;
         res.status(200).json({
-          message: "The user was logged in successfully.",
+          message: "You were logged in successfully.",
           token,
           user: {
             user_id,
@@ -89,12 +84,12 @@ router.post("/login", async (req, res) => {
             email,
             created_at,
             updated_at
-          } // Expand with additional info as needed
+          }
         });
       } else {
         res.status(404).json({
           error: true,
-          message: "The requested content does not exist."
+          message: "Sorry, that account does not exist."
         });
       }
     } catch (error) {
@@ -105,7 +100,5 @@ router.post("/login", async (req, res) => {
     }
   }
 });
-
-// Logout process is destroying token on front-end
 
 module.exports = router;

@@ -1,11 +1,11 @@
 // Import dependencies and general middleware
 const express = require("express");
-const configureMiddleware = require("./middleware.js");
+const configureGeneralMiddleware = require("./generalMiddleware.js");
 const server = express();
 require("dotenv").config();
 
 // Pass server through middleware file
-configureMiddleware(server);
+configureGeneralMiddleware(server);
 
 // Custom restricted middleware import
 const restricted = require("../auth/restricted.js");

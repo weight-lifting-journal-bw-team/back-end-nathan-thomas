@@ -12,7 +12,7 @@ exports.seed = function(knex, Promise) {
           first_name: "admin",
           last_name: "istrator",
           email: "email@gmail.com",
-          profile_picture: ""
+          profile_picture: null
         },
         {
           username: "mcfly",
@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
           first_name: "Marty",
           last_name: "McFly",
           email: "thelibyans@gmail.com",
-          profile_picture: ""
+          profile_picture: null
         },
         {
           username: "bigdoc",
@@ -28,7 +28,7 @@ exports.seed = function(knex, Promise) {
           first_name: "Doc",
           last_name: "Brown",
           email: "greatscott@gmail.com",
-          profile_picture: ""
+          profile_picture: null
         },
         {
           username: "nwthomas",
@@ -36,7 +36,7 @@ exports.seed = function(knex, Promise) {
           first_name: "Nathan",
           last_name: "Thomas",
           email: "thedude@gmail.com",
-          profile_picture: ""
+          profile_picture: null
         }
       ]);
     });

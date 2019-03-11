@@ -4,10 +4,11 @@ module.exports = authConstraints;
 
 // Splits to two smaller functions to separately check for
 async function authConstraints(req, res, next) {
-  if (!req.body.username || !req.body.email) {
+  const { username, password, first_name, last_name, email } = req.body;
+  if (!username || !password || !first_name || !last_name || !email) {
     return res.status(406).json({
       error: true,
-      message: "Please include required registration credentials and try again."
+      message: "Please include required credentials and try again."
     });
   }
   const usernameCheck = await checkForUsername(req.body.username);

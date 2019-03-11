@@ -8,23 +8,19 @@ module.exports = (req, res, next) => {
   if (token) {
     jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
       if (err) {
-        res
-          .status(401)
-          .json({
-            error: true,
-            message: "Not authorized. Please try logging in again."
-          });
+        res.status(401).json({
+          error: true,
+          message: "Not authorized. Please try logging in again."
+        });
       } else {
         req.decodedToken = decodedToken;
         next();
       }
     });
   } else {
-    res
-      .status(401)
-      .json({
-        error: true,
-        message: "Please include a login token and try again."
-      });
+    res.status(401).json({
+      error: true,
+      message: "Please include a login token and try again."
+    });
   }
 };
