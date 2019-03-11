@@ -41,13 +41,13 @@ router.get("/:id", async (req, res) => {
     );
     if (user) {
       res.status(200).json({
-        message: "The user was retrieved successfully.",
+        message: "Your profile was retrieved successfully.",
         user
       });
     } else {
       res
         .status(404)
-        .json({ message: "The user could not be found in the database." });
+        .json({ message: "Your profile could not be found in the database." });
     }
   } catch (error) {
     res.status(500).json({
@@ -77,8 +77,8 @@ router.put("/:id", async (req, res) => {
         })
         .first();
       res.status(200).json({
-        message: "The user was updated successfully.",
-        numUpdate: updatedUser,
+        message: "Your profile was updated successfully.",
+        numUpdated: updatedUser,
         user: {
           user_id: user.user_id,
           username,
@@ -92,7 +92,7 @@ router.put("/:id", async (req, res) => {
     } else {
       res.status(404).json({
         error: true,
-        message: "The user could not be updated in the databse."
+        message: "Your profile could not be updated in the databse."
       });
     }
   } catch (error) {
@@ -109,13 +109,11 @@ router.delete("/:id", async (req, res) => {
     const deletedUser = await Users.remove(req.params.id);
     if (deletedUser) {
       res.status(200).json({
-        message: "User was deleted successfully.",
+        message: "Your profile was deleted successfully.",
         numDeleted: deletedUser
       });
     } else {
-      res
-        .status(404)
-        .json({ message: "The user could not be deleted in the database." });
+      res.status(404).json({ message: "Your profile could not be deleted." });
     }
   } catch (error) {
     res.status(500).json({
