@@ -8,7 +8,7 @@ module.exports = {
 
 function generateToken(user) {
   const payload = {
-    subject: user.id, // sub in payload is what the token is about if you want
+    subject: user.user_id, // sub in payload is what the token is about if you want
     username: user.username
     // Include other data as is needed
   };
