@@ -98,7 +98,7 @@ router.post("/login", async (req, res) => {
         res.status(404).json({
           error: true,
           user: {},
-          message: "Sorry, that account does not exist."
+          message: "Sorry, you could not be logged in."
         });
       }
     } catch (error) {
