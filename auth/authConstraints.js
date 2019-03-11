@@ -2,7 +2,7 @@ const Users = require("../users/usersModel.js");
 
 module.exports = authConstraints;
 
-// Splits to two smaller functions to separately check for
+// Splits to two smaller functions to separately check for duplicate username and email
 async function authConstraints(req, res, next) {
   const { username, password, first_name, last_name, email } = req.body;
   if (!username || !password || !first_name || !last_name || !email) {
