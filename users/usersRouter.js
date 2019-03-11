@@ -7,8 +7,8 @@ const router = express.Router();
 // Get all users request
 router.get("/", async (req, res) => {
   try {
-    const users = await Users.find();
-    if (users) {
+    const users = await Users.findWithoutPassword();
+    if (users.length) {
       res.status(200).json({
         error: false,
         message: "The users were found in the database",
@@ -33,15 +33,7 @@ router.get("/", async (req, res) => {
 // Get users by id request
 router.get("/:id", async (req, res) => {
   try {
-    const user = await Users.findById(req.params.id).select(
-      "user_id",
-      "username",
-      "first_name",
-      "last_name",
-      "email",
-      "created_at",
-      "updated_at"
-    );
+    const user = await Users.findById(req.params.id);
     if (user) {
       res.status(200).json({
         error: false,
@@ -71,7 +63,7 @@ router.put("/:id", async (req, res) => {
     res.status(404).json({
       error: true,
       user: {},
-      message: "There was an error processing your request.",
+      message: "Please include all required fields and try again.",
       numUpdated: 0
     });
   }
@@ -82,7 +74,7 @@ router.put("/:id", async (req, res) => {
     if (updatedUser) {
       const user = await Users.find()
         .where({
-          username: username
+          username
         })
         .first();
       res.status(200).json({

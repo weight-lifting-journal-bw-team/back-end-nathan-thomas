@@ -3,6 +3,7 @@ const db = require("../database/dbConfig.js");
 module.exports = {
   find,
   findById,
+  findWithoutPassword,
   insert,
   remove,
   update
@@ -22,13 +23,25 @@ function find() {
   );
 }
 
+function findWithoutPassword() {
+  return db("users").select(
+    "user_id",
+    "username",
+    "first_name",
+    "last_name",
+    "email",
+    "profile_picture",
+    "created_at",
+    "updated_at"
+  );
+}
+
 function findById(id) {
   return db("users")
     .where({ user_id: id })
     .select(
       "user_id",
       "username",
-      "password",
       "first_name",
       "last_name",
       "email",
