@@ -107,7 +107,7 @@ router.post("/", async (req, res) => {
           workout: newWorkout
         });
       } else {
-        res.status(404).json({
+        res.status(400).json({
           error: true,
           workout: [],
           message: "Your workout was created but could not be returned."
@@ -143,12 +143,22 @@ router.put("/:id", async (req, res) => {
   try {
     const updatedWorkout = await Workouts.update(req.params.id, req.body);
     if (updatedWorkout) {
-      res.status(200).json({
-        error: false,
-        message: "Your workout was updated successfully.",
-        workout: updatedWorkout,
-        numUpdated: 1
-      });
+      const updatedWorkout = await Workouts.findByWorkoutId(req.params.id);
+      if (updatedWorkout) {
+        res.status(200).json({
+          error: false,
+          message: "Your workout was updated successfully.",
+          workout: updatedWorkout,
+          numUpdated: 1
+        });
+      } else {
+        res.status(400).json({
+          error: true,
+          workout: [],
+          message: "Your workout was updated but could not be returned.",
+          numUpdated: 1
+        });
+      }
     } else {
       res.status(404).json({
         error: true,

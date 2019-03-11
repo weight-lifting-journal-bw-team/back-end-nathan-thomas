@@ -912,7 +912,7 @@ _HTTP method:_ **[POST]**
 | name               | type    | required | description                         |
 | ------------------ | ------- | -------- | ----------------------------------- |
 | `workout_name`     | String  | Yes      |                                     |
-| `workout_date`     | Integer | No       | Created from Date.now()             |
+| `workout_date`     | Integer | Yes      | Created from Date.now()             |
 | `workout_type`     | String  | No       |                                     |
 | `workout_subtype`  | String  | No       |                                     |
 | `workout_reps`     | Integer | No       |                                     |
