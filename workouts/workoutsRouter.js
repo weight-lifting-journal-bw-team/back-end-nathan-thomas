@@ -83,41 +83,40 @@ router.get("/user/:id", async (req, res) => {
 // Create new workout for a user request
 router.post("/", async (req, res) => {
   if (!req.body.workout_name || !req.body.user_id) {
-    res.status(406).json({
+    return res.status(406).json({
       error: true,
       workout: [],
       message: "Please include workout details and try again."
     });
-  } else {
-    try {
-      const workout = await Workouts.insert(req.body);
-      if (workout) {
-        res.status(200).json({
-          error: false,
-          message: "Your workout was created successfully.",
-          workout
-        });
-      } else {
-        res.status(404).json({
-          error: true,
-          workout: [],
-          message: "Your workout could not be created."
-        });
-      }
-    } catch (error) {
-      res.status(500).json({
+  }
+  try {
+    const workout = await Workouts.insert(req.body);
+    if (workout) {
+      res.status(200).json({
+        error: false,
+        message: "Your workout was created successfully.",
+        workout
+      });
+    } else {
+      res.status(404).json({
         error: true,
         workout: [],
-        message: "There was an error processing your request."
+        message: "Your workout could not be created."
       });
     }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      workout: [],
+      message: "There was an error processing your request."
+    });
   }
 });
 
 // Update workout request
 router.put("/:id", async (req, res) => {
   if (!req.body || !req.body.workout_name || !req.body.user_id) {
-    res.status(406).json({
+    return res.status(406).json({
       error: true,
       workout: [],
       message: "Please include workout details and try again.",

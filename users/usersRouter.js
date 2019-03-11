@@ -10,18 +10,21 @@ router.get("/", async (req, res) => {
     const users = await Users.find();
     if (users) {
       res.status(200).json({
+        error: false,
         message: "The users were found in the database",
         users
       });
     } else {
       res.status(404).json({
         error: true,
+        users: [],
         message: "The users could not be found in the database."
       });
     }
   } catch (error) {
     res.status(500).json({
       error: true,
+      users: [],
       message: "There was an error processing your request."
     });
   }
@@ -41,17 +44,21 @@ router.get("/:id", async (req, res) => {
     );
     if (user) {
       res.status(200).json({
+        error: false,
         message: "Your profile was retrieved successfully.",
         user
       });
     } else {
-      res
-        .status(404)
-        .json({ message: "Your profile could not be found in the database." });
+      res.status(404).json({
+        error: true,
+        message: "Your profile could not be found in the database.",
+        user: {}
+      });
     }
   } catch (error) {
     res.status(500).json({
       error: true,
+      user: {},
       message: "There was an error processing your request."
     });
   }
@@ -63,7 +70,9 @@ router.put("/:id", async (req, res) => {
   if (!username || !password || !first_name || !last_name || !email) {
     res.status(404).json({
       error: true,
-      message: "There was an error processing your request."
+      user: {},
+      message: "There was an error processing your request.",
+      numUpdated: 0
     });
   }
   try {
@@ -77,6 +86,7 @@ router.put("/:id", async (req, res) => {
         })
         .first();
       res.status(200).json({
+        error: false,
         message: "Your profile was updated successfully.",
         numUpdated: updatedUser,
         user: {
@@ -92,13 +102,17 @@ router.put("/:id", async (req, res) => {
     } else {
       res.status(404).json({
         error: true,
-        message: "Your profile could not be updated in the databse."
+        user: {},
+        message: "Your profile could not be updated.",
+        numUpdated: 0
       });
     }
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: "There was an error processing your request."
+      user: {},
+      message: "There was an error processing your request.",
+      numUpdated: 0
     });
   }
 });
@@ -109,16 +123,22 @@ router.delete("/:id", async (req, res) => {
     const deletedUser = await Users.remove(req.params.id);
     if (deletedUser) {
       res.status(200).json({
+        error: false,
         message: "Your profile was deleted successfully.",
         numDeleted: deletedUser
       });
     } else {
-      res.status(404).json({ message: "Your profile could not be deleted." });
+      res.status(404).json({
+        error: true,
+        message: "Your profile could not be deleted.",
+        numDeleted: 0
+      });
     }
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: "There was an error processing your request."
+      message: "There was an error processing your request.",
+      numDeleted: 0
     });
   }
 });

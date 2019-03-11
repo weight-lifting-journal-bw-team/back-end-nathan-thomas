@@ -10,8 +10,8 @@ exports.up = function(knex, Promise) {
     tbl.string("password", 256).notNullable();
     tbl.string("first_name", 256).notNullable();
     tbl.string("last_name", 256).notNullable();
-    tbl.string("profile_picture", 1000);
     tbl.string("email", 256).notNullable();
+    tbl.string("profile_picture", 1000);
 
     // Tracks account creation/update
     tbl.timestamps(true, true);
