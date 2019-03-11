@@ -45,7 +45,7 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
   "workout_notes": "Awesome time.",         // String
   "body_region": "Legs",                    // String
   "max_weight": 200,                        // Integer
-  "progress_picture": "<url here>"          // String
+  "progress_picture": <url string>,         // String
   "user_id": 1                              // Integer, required (foreign key reference to "users" table)
 }
 ```
@@ -284,6 +284,157 @@ _example:_
   "error": true,
   "user": {},
   "message": "There was a problem with your request."
+}
+```
+
+---
+
+# USER ROUTES
+
+## **GET ALL USERS**
+
+### **Gets all users**
+
+_Method Url:_ `/api/restricted/users`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Body
+
+Nothing is required in the body for this route.
+
+#### Response
+
+##### 200 (OK)
+
+> If users are found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "The users were found in the database.",
+  "users": [
+    {
+      "user_id": 1,
+      "username": "admin",
+      "first_name": "admin",
+      "last_name": "istrator",
+      "email": "email@gmail.com",
+      "profile_picture": <cloudinary URL>,
+      "created_at": "2019-03-11T04:18:42.916Z",
+      "updated_at": "2019-03-11T04:18:42.916Z"
+    },
+    {
+      "user_id": 2,
+      "username": "mcfly",
+      "first_name": "Marty",
+      "last_name": "McFly",
+      "email": "thelibyans@gmail.com",
+      "profile_picture": <cloudinary URL>,
+      "created_at": "2019-03-11T04:18:42.916Z",
+      "updated_at": "2019-03-11T04:18:42.916Z"
+    }
+}
+```
+
+##### 404 (Not Found)
+
+> If there are no users in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "user": [],
+  "message": "The users could not be found in the database.."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "user": [],
+  "message": "There was a problem with your request."
+}
+```
+
+---
+
+## **GET USER BY ID**
+
+### **Get user by the user ID**
+
+_Method Url:_ `/api/auth/register/:id`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name      | type    | required | description           |
+| --------- | ------- | -------- | --------------------- |
+| `user_id` | Integer | Yes      | ID of a specific user |
+
+#### Response
+
+##### 200 (OK)
+
+> If a user with the specified ID in the URL parameters is found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your profile was retrieved successfully."
+  "user": {
+    "user_id": 1,
+    "username": "admin",
+    "first_name": "admin",
+    "last_name": "istrator",
+    "email": "email@gmail.com",
+    "profile_picture": <cloudinary URL>,
+    "created_at": "2019-03-09 08:26:34",
+    "updated_at": "2019-03-09 08:26:34"
+  }
+}
+```
+
+##### 404 (Bad Request)
+
+> If the requested profile does not exist, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "user": {},
+  "message": "Your profile could not be found in the database."
+}
+```
+
+##### 500 (Internal Server Error)
+
+> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "user": {},
+  "message": "There was an error processing your request."
 }
 ```
 
