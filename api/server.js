@@ -1,6 +1,6 @@
 // Import dependencies and general middleware
 const express = require("express");
-const configureGeneralMiddleware = require("./generalMiddleware.js");
+const configureGeneralMiddleware = require("../common/generalMiddleware.js");
 const server = express();
 require("dotenv").config();
 

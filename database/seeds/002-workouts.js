@@ -37,8 +37,8 @@ exports.seed = function(knex, Promise) {
         {
           workout_name: "Inventing a time machine",
           workout_date: Date.now(),
-          workout_type: "Aerobics",
-          workout_subtype: "General Aerobics",
+          workout_type: "Cardio",
+          workout_subtype: null,
           workout_sets: null,
           workout_reps: null,
           workout_time: 1,
@@ -139,7 +139,7 @@ exports.seed = function(knex, Promise) {
           workout_time: null,
           workout_distance: null,
           workout_notes:
-            "I finally started martial arts! Always wanted to do this. I feel really bad at it though....",
+            "I finally started martial arts! Always wanted to do this. I feel like I'm really bad at it though....",
           body_region: "Full Body",
           max_weight: null,
           progress_picture: null,

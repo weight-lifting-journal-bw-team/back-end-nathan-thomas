@@ -53,7 +53,7 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
 {
   "workout_id": 1,                          // Integer (primary key provided by server and autoincrements)
   "workout_name": "Killing it",             // String, required
-  "workout_date": 1552119140250,            // Integer, required
+  "workout_date": 1552119140250,            // String, required (BigInt value is retrieved as string)
   "workout_type": "Weight Lifting",         // String
   "workout_subtype": "Squats",              // String
   "workout_sets": 5,                        // Integer
@@ -66,6 +66,15 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
   "progress_picture": <url string>,         // String
   "user_id": 1                              // Integer, required (foreign key reference to "users" table)
 }
+```
+
+_All workouts measurements are stored using the following measurements:_
+
+```
+  Date: Milliseconds
+  Distance: Feet
+  Weight: Pounds
+
 ```
 
 # TEST USER ACCOUNTS

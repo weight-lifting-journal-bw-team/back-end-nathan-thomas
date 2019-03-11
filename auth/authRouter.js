@@ -5,8 +5,21 @@ const Users = require("../users/usersModel.js");
 const tokenService = require("../auth/tokenService.js");
 const authConstraints = require("./authConstraints.js");
 
+// Cloudinary and multer imports
+const { multerUploads, dataUri } = require("../common/multerMiddleware.js");
+const { uploader, cloudinaryConfig } = require("../config/cloudinary.js");
+
 // Creates router for specific API route
 const router = express.Router();
+
+// Pass through cloudinary middleware
+cloudinaryConfig(router);
+
+router.post("/test", multerUploads, async (req, res) => {
+  const file = await dataUri(req).content;
+  console.log(file);
+  return res.send("done");
+});
 
 // New user registration request
 router.post("/register", authConstraints, async (req, res) => {
