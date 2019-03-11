@@ -74,11 +74,11 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
 | auth     | POST   | /api/auth/login                   | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Web Token token in the `body` of the response. |
 | users    | GET    | /api/restricted/users             | Retrieves an array of `user` objects and returns a message with the array in the `body` of the response.                                                                                       |
 | users    | GET    | /api/restricted/users/:id         | Retrieves a single `user` object and returns a message with the object inside the `body` of the response.                                                                                      |
-| users    | PUT    | /api/restricted/users/:id         | Updates a `user` in the database using the information sent inside the `body` of the request.                                                                                                  |
+| users    | PUT    | /api/restricted/users/:id         | Updates a `user` in the database using the information sent inside the `body` of the request and returns a message with the updated `user` profile.                                            |
 | users    | DELETE | /api/restricted/users/:id         | Removes a `user` from the database using the id sent in the URL parameters of the response.                                                                                                    |
-| workouts | GET    | /api/restricted/workouts          | Retrieves an array of `workouts` objects and returns a message with the array in the `body` of the response.                                                                                   |
-| workouts | GET    | /api/restricted/workouts/:id      | Retrieves a single `workouts` object using the id sent in the URL parameters of the request and returns a message with the object inside the `body` of the response.                           |
-| workouts | GET    | /api/restricted/workouts/user/:id | Retrieves an array of `workouts` objects for a single user using the id sent in the URL parameters of the request and returns a message with the array inside the `body` of the response.      |
+| workouts | GET    | /api/restricted/workouts          | Retrieves an array of `workout` objects and returns a message with the array in the `body` of the response.                                                                                    |
+| workouts | GET    | /api/restricted/workouts/:id      | Retrieves a single `workout` object using the id sent in the URL parameters of the request and returns a message with the object inside the `body` of the response.                            |
+| workouts | GET    | /api/restricted/workouts/user/:id | Retrieves an array of `workout` objects for a single user using the id sent in the URL parameters of the request and returns a message with the array inside the `body` of the response.       |
 | workouts | POST   | /api/restricted/workouts          | Uses the information sent inside the `body` to create a new `workout` for a specified user by included `user_id` and returns a message along with the new `workout`.                           |
 | workouts | PUT    | /api/restricted/workouts/:id      | Uses the information sent inside the `body` to update a single `workout` using the id sent in the URL parameters of the request and returns a message along with the updated `workout`.        |
 | workouts | DELETE | /api/restricted/workouts/:id      | Removes a `workout` in the database using the id sent in the URL parameters of the request.                                                                                                    |
@@ -119,7 +119,7 @@ _example:_
   "first_name": "admin",
   "last_name": "istrator",
   "email": "email@gmail.com"
-  "profile_picture": <image upload>
+  "profile_picture": <file>
 }
 ```
 
@@ -131,7 +131,8 @@ _example:_
 
 ```
 {
-  "message": "The account was created successfully."
+  "error": false,
+  "message": "Your account was created successfully."
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI3IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTQ0MzM1NjUxLCJleHAiOjE1NzU4OTMyNTF9.uqd2OHBYkGQpwjLTPPiPWYkYOKlG7whQDFkk46xFXoX",
   "user": {
     "user_id": 1,
@@ -139,7 +140,7 @@ _example:_
     "first_name": "admin",
     "last_name": "istrator",
     "email": "email@gmail.com",
-    "profile_picture": <image upload>,
+    "profile_picture": <cloudinary URL>,
     "created_at": "2019-03-09 08:26:34",
     "updated_at": "2019-03-09 08:26:34"
   }
@@ -153,7 +154,21 @@ _example:_
 ```
 {
   "error": true,
-  "message": "Please include a username and password and try again."
+  "user": {},
+  "message": "Please include required credentials and try again.."
+}
+```
+
+##### 409 (Conflict)
+
+> If the submitted username or email is a duplicate of what is already in the database, the endpoint will return an HTTP response with a status code `409` and a body as below.
+
+```
+{
+  "error": true,
+  "usernameError": <true/false depending on if username is duplicate>,
+  "emailError": <true/false depending on if email is duplicate>,
+  "message": "Sorry, that <username and/or email> already exists."
 }
 ```
 
@@ -164,7 +179,8 @@ _example:_
 ```
 {
   "error": true,
-  "message": "The account could not be created in the database."
+  "user": {},
+  "message": "Your account could not be created in the database."
 }
 ```
 
@@ -175,6 +191,7 @@ _example:_
 ```
 {
   "error": true,
+  "user": {},
   "message": "There was a problem with your request."
 }
 ```
@@ -206,8 +223,8 @@ _example:_
 
 ```
 {
-  "username": "admin",
-  "password": "password123"
+  "username": "mcfly",
+  "password": "thatDeloreanTho"
 }
 ```
 
@@ -219,8 +236,9 @@ _example:_
 
 ```
 {
-  "message": "The user was logged in successfully."
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTQ0MzM1NjUxLCJleHAiOjE1NzU4OTMyNTF9.uqd2OHBYkGQpwjLTPPiPWYkYOKlG7whQDFkk46xGXoE",
+  "error": false,
+  "message": "You were logged in successfully."
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MDwiaWF0IjoxNTQ0MzM1NjUxLCJleHAuOjE1NzU4OTMyNTF9.uqd2OHBYkGQpwjLTPPiPWYkYOKlG7whQDFkk46xGXnE",
   "user": {
     "user_id": 1,
     "username": "nwthomas",
@@ -240,6 +258,7 @@ _example:_
 ```
 {
   "error": true,
+  "user": {},
   "message": "Please include a username and password and try again."
 }
 ```
@@ -251,6 +270,7 @@ _example:_
 ```
 {
   "error": true,
+  "user": {},
   "message": "The requested content does not exist."
 }
 ```
@@ -262,6 +282,7 @@ _example:_
 ```
 {
   "error": true,
+  "user": {},
   "message": "There was a problem with your request."
 }
 ```

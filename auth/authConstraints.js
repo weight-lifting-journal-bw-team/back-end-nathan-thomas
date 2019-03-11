@@ -8,6 +8,7 @@ async function authConstraints(req, res, next) {
   if (!username || !password || !first_name || !last_name || !email) {
     return res.status(406).json({
       error: true,
+      user: {},
       message: "Please include required credentials and try again."
     });
   }
