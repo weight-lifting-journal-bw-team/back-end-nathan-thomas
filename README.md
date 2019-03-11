@@ -9,11 +9,14 @@
   - [Register](#register)
   - [Login](#login)
 - [User Routes](#user-routes)
-  - [Get Users](#get-all-users)
-  - [Get User](#get-user-by-id)
+  - [Get Users](#get-users)
+  - [Get User](#get-user)
   - [Update User](#update-user)
   - [Delete User](#delete-user)
 - [Workouts Routes](#workouts-routes)
+  - [Get Workouts](#get-workouts)
+  - [Get Workout](#get-workout)
+  - [Get Workouts by User](#get-workouts-by-user)
 
 # DATA SCHEMA (DATA STRUCTURES)
 
@@ -249,6 +252,7 @@ _example:_
     "first_name": "nathan",
     "last_name": "thomas",
     "email": "nwthomas@me.com",
+    "profile_picture": <cloudinary URL>,
     "created_at": "2019-03-09 08:26:34",
     "updated_at": "2019-03-09 08:26:34"
   }
@@ -293,7 +297,7 @@ _example:_
 
 ---
 
-# USER ROUTES
+# USERS ROUTES
 
 ## **GET USERS**
 
@@ -352,7 +356,7 @@ _HTTP method:_ **[GET]**
 {
   "error": true,
   "user": [],
-  "message": "The users could not be found in the database.."
+  "message": "The users could not be found in the database."
 }
 ```
 
@@ -592,6 +596,276 @@ _HTTP method:_ **[DELETE]**
   "error": true,
   "message": "There was an error processing your request.",
   numDeleted: 0
+}
+```
+
+---
+
+# WORKOUTS ROUTES
+
+## **GET WORKOUTS**
+
+### **Get all workouts**
+
+_Method Url:_ `/api/restricted/workouts`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Response
+
+##### 200 (OK)
+
+> If workouts are found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "The workouts were retrieved successfully.",
+  "workouts": [
+      {
+          "workout_id": 1,
+          "workout_name": "Hoverboarding",
+          "workout_date": "1552286585353",
+          "workout_type": "Cardio",
+          "workout_subtype": "Skateboarding",
+          "workout_sets": null,
+          "workout_reps": null,
+          "workout_time": 60,
+          "workout_distance": 500,
+          "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
+          "body_region": "Legs",
+          "max_weight": null,
+          "progress_picture": null,
+          "user_id": 2,
+          "created_at": "2019-03-11T06:43:05.407Z",
+          "updated_at": "2019-03-11T06:43:05.407Z"
+      },
+      {
+          "workout_id": 2,
+          "workout_name": "Time traveling like crazy",
+          "workout_date": "1552286585353",
+          "workout_type": "Cardio",
+          "workout_subtype": "General Aerobics",
+          "workout_sets": null,
+          "workout_reps": null,
+          "workout_time": 34,
+          "workout_distance": 162,
+          "workout_notes": "Roads? Where we're going we don't need roads....",
+          "body_region": "Full Body",
+          "max_weight": null,
+          "progress_picture": null,
+          "user_id": 3,
+          "created_at": "2019-03-11T06:43:05.407Z",
+          "updated_at": "2019-03-11T06:43:05.407Z"
+      }
+  ]
+}
+```
+
+##### 404 (Not Found)
+
+> If there are no workouts in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "workouts": [],
+  "message": "The workouts could not be found."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "workouts": [],
+  "message": "There was a problem with your request."
+}
+```
+
+---
+
+## **GET WORKOUT**
+
+### **Get workout by workout ID**
+
+_Method Url:_ `/api/restricted/workouts/:id`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name         | type    | required | description              |
+| ------------ | ------- | -------- | ------------------------ |
+| `workout_id` | Integer | Yes      | ID of a specific workout |
+
+#### Response
+
+##### 200 (OK)
+
+> If the workout is found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your workout was retrieved successfully.",
+  "workout": {
+      "workout_id": 1,
+      "workout_name": "Hoverboarding",
+      "workout_date": "1552286585353",
+      "workout_type": "Cardio",
+      "workout_subtype": "Skateboarding",
+      "workout_sets": null,
+      "workout_reps": null,
+      "workout_time": 60,
+      "workout_distance": 500,
+      "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
+      "body_region": "Legs",
+      "max_weight": null,
+      "progress_picture": null,
+      "user_id": 2,
+      "created_at": "2019-03-11T06:43:05.407Z",
+      "updated_at": "2019-03-11T06:43:05.407Z"
+  }
+}
+```
+
+##### 404 (Not Found)
+
+> If the workout cannot be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "workout": {},
+  "message": "Your workout could not be found."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "workouts": {},
+  "message": "There was a problem with your request."
+}
+```
+
+---
+
+## **GET WORKOUTS BY USER**
+
+### **Get workouts by user ID**
+
+_Method Url:_ `/api/restricted/workouts/user/:id`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name         | type    | required | description              |
+| ------------ | ------- | -------- | ------------------------ |
+| `workout_id` | Integer | Yes      | ID of a specific workout |
+
+#### Response
+
+##### 200 (OK)
+
+> If the workout is found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "All of your workouts were retrieved successfully.",
+  "workouts": [
+      {
+        "workout_id": 1,
+        "workout_name": "Hoverboarding",
+        "workout_date": "1552286585353",
+        "workout_type": "Cardio",
+        "workout_subtype": "Skateboarding",
+        "workout_sets": null,
+        "workout_reps": null,
+        "workout_time": 60,
+        "workout_distance": 500,
+        "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
+        "body_region": "Legs",
+        "max_weight": null,
+        "progress_picture": null,
+        "user_id": 2,
+        "created_at": "2019-03-11T06:43:05.407Z",
+        "updated_at": "2019-03-11T06:43:05.407Z"
+      },
+      {
+        "workout_id": 5,
+        "workout_name": "Helping Doc Brown out",
+        "workout_date": "1552286585353",
+        "workout_type": "Strength",
+        "workout_subtype": "Squats",
+        "workout_sets": 5,
+        "workout_reps": 5,
+        "workout_time": 51,
+        "workout_distance": null,
+        "workout_notes": "Wait a minute. Wait a minute Doc, uh, are you telling me you built a time machine … out of a DeLorean?",
+        "body_region": "Legs",
+        "max_weight": 215,
+        "progress_picture": null,
+        "user_id": 2,
+        "created_at": "2019-03-11T06:43:05.407Z",
+        "updated_at": "2019-03-11T06:43:05.407Z"
+      }
+  ]
+}
+```
+
+##### 404 (Not Found)
+
+> If no workouts for the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "workouts": [],
+  "message": "Your workouts could not be found."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "workouts": [],
+  "message": "There was a problem with your request."
 }
 ```
 

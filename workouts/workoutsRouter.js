@@ -41,14 +41,14 @@ router.get("/:id", async (req, res) => {
     } else {
       res.status(404).json({
         error: true,
-        workout: [],
+        workout: {},
         message: "Your workout could not be found."
       });
     }
   } catch (error) {
     res.status(500).json({
       error: true,
-      workouts: [],
+      workouts: {},
       message: "There was an error processing your request."
     });
   }
