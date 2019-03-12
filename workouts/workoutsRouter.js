@@ -155,8 +155,11 @@ router.post("/", multerUploads, async (req, res) => {
 });
 
 // Update workout request
-router.put("/:id", async (req, res) => {
-  if (!req.body || !req.body.workout_name || !req.body.user_id) {
+router.put("/:id", multerUploads, async (req, res) => {
+  // JSON.parse() and destructure req.body
+  const parsedWorkout = JSON.parse(req.body.workout);
+
+  if (!parsedWorkout || !parsedWorkout.workout_name || !parsedWorkout.user_id) {
     return res.status(406).json({
       error: true,
       workout: [],
@@ -165,8 +168,26 @@ router.put("/:id", async (req, res) => {
       numUpdated: 0
     });
   }
+
+  // Strip image file from request and send to cloudinary for returned URL or null if failed
+  const file = dataUri(req).content;
+  let imgUrl = null;
+  if (file) {
+    const result = await uploader.upload(file);
+    imgUrl = result.url;
+  }
+
+  // Conditionaly insertion of different image URLs based on workout submission
+  const picture = imgUrl ? imgUrl : null;
+
+  // Compile new user and insert into database
+  const compiledWorkout = { ...parsedWorkout, progress_picture: picture };
+
   try {
-    const updatedWorkout = await Workouts.update(req.params.id, req.body);
+    const updatedWorkout = await Workouts.update(
+      req.params.id,
+      compiledWorkout
+    );
     if (updatedWorkout) {
       const updatedWorkout = await Workouts.findByWorkoutId(req.params.id);
       if (updatedWorkout) {

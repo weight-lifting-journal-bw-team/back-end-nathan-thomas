@@ -11,7 +11,7 @@ class App extends Component {
       email: "emaaasdf"
     },
     workout: {
-      workout_name: "Monday crunches",
+      workout_name: "Monday crunche",
       workout_date: "1552321015541",
       workout_type: "Strength",
       workout_subtype: "General Strength",
@@ -58,8 +58,8 @@ class App extends Component {
     formData.append("image", this.state.progress_picture);
 
     axios
-      .post(
-        "http://localhost:7000/api/restricted/workouts",
+      .put(
+        "http://localhost:7000/api/restricted/workouts/1",
         formData,
         reqOptions
       )
