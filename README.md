@@ -16,7 +16,7 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
 - [Auth Routes](#auth-routes)
   - [Register](#register)
   - [Login](#login)
-- [UserS Routes](#users-routes)
+- [Users Routes](#users-routes)
   - [Get Users](#get-users)
   - [Get User](#get-user)
   - [Update User](#update-user)
@@ -1197,69 +1197,6 @@ _HTTP method:_ **[DELETE]**
   "error": true,
   "message": "There was a problem with your request.",
   "numDeleted": 0
-}
-```
-
----
-
-# MISCELLANEOUS ROUTES
-
-## **UPLOAD IMAGE**
-
-### **Upload and return image**
-
-_Method Url:_ `/api/restricted/images`
-
-_HTTP method:_ **[POST]**
-
-#### Headers
-
-| name            | type   | required | description              |
-| --------------- | ------ | -------- | ------------------------ |
-| `Content-Type`  | String | Yes      | Must be application/json |
-| `Authorization` | String | Yes      | JSON Web Token           |
-
-#### FormData
-
-| name       | type     | required | description |
-| ---------- | -------- | -------- | ----------- |
-| `FormData` | FormData | Yes      |             |
-
-#### Response
-
-##### 200 (OK)
-
-> The endpoint takes in FormData from the client, relays it on to Cloudinary, and will return an HTTP response with a status code `200` and a body as below.
-
-```
-{
-  error: false,
-  message: "Your image was uploaded successfully.",
-  image: { imgUrl: "http://res.cloudinary.com/personal-cloudinary/image/upload/v1552356725/f17hzx6p4znqzbri75az.png" }
-}
-```
-
-##### 409 (Conflict)
-
-> If the image URL is not created successfully, the endpoint will return an HTTP response with a status code `409` and a body as below.
-
-```
-{
-  "error": true,
-  "message": "Your image could not be uploaded.",
-  "image": {}
-}
-```
-
-##### 500 (Internal Server Error)
-
-> If there is a server or database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
-
-```
-{
-  "error": true,
-  "message": "There was an error processing your request.",
-  "image": {}
 }
 ```
 

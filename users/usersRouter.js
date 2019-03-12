@@ -2,7 +2,14 @@ const express = require("express");
 const Users = require("./usersModel.js");
 const bcrypt = require("bcryptjs");
 
+// Cloudinary and multer imports
+const { multerUploads, dataUri } = require("../common/multerMiddleware.js");
+const { uploader, cloudinaryConfig } = require("../config/cloudinary.js");
+
 const router = express.Router();
+
+// Pass through cloudinary middleware
+cloudinaryConfig(router);
 
 // Get all users request
 router.get("/", async (req, res) => {
@@ -57,8 +64,10 @@ router.get("/:id", async (req, res) => {
 });
 
 // Update individual user request
-router.put("/:id", async (req, res) => {
-  const { username, password, first_name, last_name, email } = req.body;
+router.put("/:id", multerUploads, async (req, res) => {
+  const { username, password, first_name, last_name, email } = JSON.parse(
+    req.body.user
+  );
   if (!username || !password || !first_name || !last_name || !email) {
     res.status(406).json({
       error: true,
@@ -68,9 +77,28 @@ router.put("/:id", async (req, res) => {
     });
   }
   try {
-    const hash = bcrypt.hashSync(req.body.password, 14);
-    req.body.password = hash;
-    const updatedUser = await Users.update(req.params.id, req.body);
+    // JSON.parse() and destructure req.body
+    const parsedNewUser = JSON.parse(req.body.user);
+    console.log(parsedNewUser);
+
+    // Strip image file from request and send to cloudinary for returned URL or null if failed
+    const file = dataUri(req).content;
+    let imgUrl = null;
+    if (file) {
+      const result = await uploader.upload(file);
+      imgUrl = result.url;
+    }
+
+    // Hash password comparisons
+    const hash = bcrypt.hashSync(parsedNewUser.password, 14);
+    parsedNewUser.password = hash;
+
+    // Conditionaly insertion of updated URL if new picture or reuse existing one if noe
+    const picture = imgUrl ? imgUrl : parsedNewUser.profile_picture;
+
+    // Compile new user and insert into database
+    const compiledUser = { ...parsedNewUser, profile_picture: picture };
+    const updatedUser = await Users.update(req.params.id, compiledUser);
     if (updatedUser) {
       const user = await Users.find()
         .where({
@@ -83,10 +111,11 @@ router.put("/:id", async (req, res) => {
         numUpdated: updatedUser,
         user: {
           user_id: user.user_id,
-          username,
-          first_name,
-          last_name,
-          email,
+          username: user.username,
+          first_name: user.first_name,
+          last_name: user.first_name,
+          email: user.email,
+          profile_picture: user.profile_picture,
           created_at: user.created_at,
           updated_at: user.updated_at
         }

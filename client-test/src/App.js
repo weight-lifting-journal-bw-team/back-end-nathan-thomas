@@ -4,11 +4,11 @@ import axios from "axios";
 class App extends Component {
   state = {
     user: {
-      username: "thomas",
+      username: "admi",
       password: "password",
       first_name: "admin",
       last_name: "istrator",
-      email: "email"
+      email: "emaaasdf"
     },
     profile_picture: null
   };
@@ -39,7 +39,7 @@ class App extends Component {
     formData.append("image", this.state.profile_picture);
 
     axios
-      .post("http://localhost:7000/api/auth/register", formData, reqOptions)
+      .put("http://localhost:7000/api/restricted/users/1", formData, reqOptions)
       .then(res => {
         console.log(res.data);
       })
