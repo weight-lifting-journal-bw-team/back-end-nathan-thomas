@@ -23,21 +23,17 @@ class App extends Component {
   };
   sendData = e => {
     e.preventDefault();
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyMzI4ODYzLCJleHAiOjE1NTI0MTUyNjN9.ZafOGnvp3j5EorN7VSxWuHoQtr2AGRQ3z0CkZL4ZGPI";
 
-    const headers = new Headers({
-      authorization: token,
-      withCredentials: true,
-      "Content-Type": "multipart/form-data"
-    });
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyMzU0MjI0LCJleHAiOjE1NTI0NDA2MjR9.gO9bRJxkaXka2N0TQ7dEv7vllbzeL8DlkOPIKR0kdq4";
+
+    const reqOptions = { headers: { authorization: token } };
 
     const formData = new FormData();
     formData.append("image", this.state.profile_picture);
     // formData.append("user", JSON.stringify(this.state.users));
-    console.log(formData);
     axios
-      .post("http://localhost:7000/api/auth/test", formData, headers)
+      .post("http://localhost:7000/api/restricted/image", formData, reqOptions)
       .then(res => {
         console.log(res.data);
       })

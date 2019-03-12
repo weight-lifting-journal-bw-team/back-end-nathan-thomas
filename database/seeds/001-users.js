@@ -12,7 +12,8 @@ exports.seed = function(knex, Promise) {
           first_name: "admin",
           last_name: "istrator",
           email: "email@gmail.com",
-          profile_picture: null
+          profile_picture:
+            "http://res.cloudinary.com/personal-cloudinary/image/upload/v1552356725/f17hzx6p4znqzbri75az.png"
         },
         {
           username: "mcfly",
@@ -20,7 +21,8 @@ exports.seed = function(knex, Promise) {
           first_name: "Marty",
           last_name: "McFly",
           email: "thelibyans@gmail.com",
-          profile_picture: null
+          profile_picture:
+            "https://res.cloudinary.com/personal-cloudinary/image/upload/v1552354398/lyvyehbsa3pusevzmybj.jpg"
         },
         {
           username: "bigdoc",
@@ -28,7 +30,8 @@ exports.seed = function(knex, Promise) {
           first_name: "Doc",
           last_name: "Brown",
           email: "greatscott@gmail.com",
-          profile_picture: null
+          profile_picture:
+            "https://res.cloudinary.com/personal-cloudinary/image/upload/v1552354404/nqmxottsfpnov4jkyqxs.jpg"
         },
         {
           username: "nwthomas",
@@ -36,7 +39,8 @@ exports.seed = function(knex, Promise) {
           first_name: "Nathan",
           last_name: "Thomas",
           email: "thedude@gmail.com",
-          profile_picture: null
+          profile_picture:
+            "http://res.cloudinary.com/personal-cloudinary/image/upload/v1552356087/kimhlpnc0g3p4523jnsi.jpg"
         }
       ]);
     });
