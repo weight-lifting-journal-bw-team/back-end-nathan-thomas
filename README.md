@@ -28,6 +28,8 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
   - [Create Workout](#create-workout)
   - [Update Workout](#update-workout)
   - [Delete Workout](#delete-workout)
+- [Miscellaneous Routes](#miscellaneous-routes)
+  - [Upload Image](#upload-image)
 
 # DATA SCHEMA (DATA STRUCTURES)
 
@@ -1201,6 +1203,8 @@ _HTTP method:_ **[DELETE]**
 ```
 
 ---
+
+# MISCELLANEOUS ROUTES
 
 ## **UPLOAD IMAGE**
 
