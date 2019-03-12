@@ -4,19 +4,35 @@ import axios from "axios";
 class App extends Component {
   state = {
     user: {
-      username: "thomas",
+      username: "admi",
       password: "password",
       first_name: "admin",
       last_name: "istrator",
-      email: "e"
+      email: "emaaasdf"
     },
+    workout: {
+      workout_name: "Monday crunche",
+      workout_date: "1552321015541",
+      workout_type: "Strength",
+      workout_subtype: "General Strength",
+      workout_sets: 10,
+      workout_reps: 20,
+      workout_time: 30,
+      workout_distance: null,
+      workout_notes:
+        "Great workout. Remember to grab cheese and milk on the way home!",
+      body_region: "Abdominal",
+      max_weight: null,
+      user_id: 1
+    },
+    progress_picture: null,
     profile_picture: null
   };
   handleFile = e => {
     this.setState(
       {
         ...this.state,
-        profile_picture: e.target.files[0]
+        progress_picture: e.target.files[0]
       },
       () => console.log(this.state)
     );
@@ -27,13 +43,26 @@ class App extends Component {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyMzU0MjI0LCJleHAiOjE1NTI0NDA2MjR9.gO9bRJxkaXka2N0TQ7dEv7vllbzeL8DlkOPIKR0kdq4";
 
-    const reqOptions = { headers: { authorization: token } };
+    const reqOptions = {
+      headers: { authorization: token },
+      "Content-type": "multipart/form-data"
+    };
 
     const formData = new FormData();
-    formData.append("image", this.state.profile_picture);
-    // formData.append("user", JSON.stringify(this.state.users));
+    // let rawData = { ...this.state.user };
+    let rawData = { ...this.state.workout };
+    rawData = JSON.stringify(rawData);
+    // formData.append("user", rawData);
+    formData.append("workout", rawData);
+    // formData.append("image", this.state.profile_picture);
+    formData.append("image", this.state.progress_picture);
+
     axios
-      .post("http://localhost:7000/api/restricted/image", formData, reqOptions)
+      .put(
+        "http://localhost:7000/api/restricted/workouts/1",
+        formData,
+        reqOptions
+      )
       .then(res => {
         console.log(res.data);
       })

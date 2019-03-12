@@ -4,7 +4,10 @@ module.exports = authConstraints;
 
 // Splits to two smaller functions to separately check for duplicate username and email
 async function authConstraints(req, res, next) {
-  const { username, password, first_name, last_name, email } = req.body;
+  // JSON.parse() and destructure out for use in tests
+  const { username, password, first_name, last_name, email } = JSON.parse(
+    req.body.user
+  );
   if (!username || !password || !first_name || !last_name || !email) {
     return res.status(406).json({
       error: true,
@@ -12,8 +15,10 @@ async function authConstraints(req, res, next) {
       message: "Please include required credentials and try again."
     });
   }
-  const usernameCheck = await checkForUsername(req.body.username);
-  const emailCheck = await checkForEmail(req.body.email);
+
+  // Make sure to use JSON.parse() values and not req.body
+  const usernameCheck = await checkForUsername(username);
+  const emailCheck = await checkForEmail(email);
   if (usernameCheck && emailCheck) {
     res.status(409).json({
       error: true,
@@ -40,11 +45,13 @@ async function authConstraints(req, res, next) {
   }
 }
 
+// Returns boolean flag after checking the database
 async function checkForUsername(username) {
   const foundUsername = await Users.find().where({ username });
   return foundUsername.length ? true : false;
 }
 
+// Returns boolean flag after checking the database
 async function checkForEmail(email) {
   const foundEmail = await Users.find().where({ email });
   return foundEmail.length ? true : false;
