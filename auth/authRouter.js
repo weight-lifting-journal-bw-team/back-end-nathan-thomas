@@ -5,20 +5,44 @@ const Users = require("../users/usersModel.js");
 const tokenService = require("../auth/tokenService.js");
 const authConstraints = require("./authConstraints.js");
 
+// Cloudinary and multer imports
+const { multerUploads, dataUri } = require("../common/multerMiddleware.js");
+const { uploader, cloudinaryConfig } = require("../config/cloudinary.js");
+
 // Creates router for specific API route
 const router = express.Router();
 
+// Pass through cloudinary middleware
+cloudinaryConfig(router);
+
 // New user registration request
-router.post("/register", authConstraints, async (req, res) => {
+router.post("/register", multerUploads, authConstraints, async (req, res) => {
   try {
+    // JSON.parse() and destructure req.body
+    const parsedNewUser = JSON.parse(req.body.user);
+    // Strip image file from request and send to cloudinary for returned URL or null if failed
+    const file = dataUri(req).content;
+    let imgUrl = null;
+    if (file) {
+      const result = await uploader.upload(file);
+      imgUrl = result.url;
+    }
+
     // Encryption of password
-    const hash = bcrypt.hashSync(req.body.password, 14); // Must be the same as the seeds
+    const hash = bcrypt.hashSync(parsedNewUser.password, 14); // Must be the same as the seeds
     req.body.password = hash;
-    const user = await Users.insert(req.body);
+
+    // Conditionaly insertion of different image URLs based on user submission
+    const picture = imgUrl ? imgUrl : null;
+
+    // Compile new user and insert into database
+    const compiledUser = { ...parsedNewUser, profile_picture: picture };
+    const user = await Users.insert(compiledUser);
+
     if (user) {
       const newUserProfile = await Users.find()
         .where({
-          username: req.body.username
+          username: parsedNewUser.username
         })
         .first();
       const token = tokenService.generateToken(newUserProfile);

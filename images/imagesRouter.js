@@ -12,6 +12,7 @@ const { uploader, cloudinaryConfig } = require("../config/cloudinary.js");
 cloudinaryConfig(router);
 
 router.post("/", multerUploads, async (req, res) => {
+  console.log(JSON.parse(req.body.user));
   try {
     const file = dataUri(req).content;
     const result = await uploader.upload(file);

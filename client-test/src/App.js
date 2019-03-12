@@ -8,7 +8,7 @@ class App extends Component {
       password: "password",
       first_name: "admin",
       last_name: "istrator",
-      email: "e"
+      email: "email"
     },
     profile_picture: null
   };
@@ -27,13 +27,19 @@ class App extends Component {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyMzU0MjI0LCJleHAiOjE1NTI0NDA2MjR9.gO9bRJxkaXka2N0TQ7dEv7vllbzeL8DlkOPIKR0kdq4";
 
-    const reqOptions = { headers: { authorization: token } };
+    const reqOptions = {
+      headers: { authorization: token },
+      "Content-type": "multipart/form-data"
+    };
 
     const formData = new FormData();
+    let rawData = { ...this.state.user };
+    rawData = JSON.stringify(rawData);
+    formData.append("user", rawData);
     formData.append("image", this.state.profile_picture);
-    // formData.append("user", JSON.stringify(this.state.users));
+
     axios
-      .post("http://localhost:7000/api/restricted/image", formData, reqOptions)
+      .post("http://localhost:7000/api/auth/register", formData, reqOptions)
       .then(res => {
         console.log(res.data);
       })

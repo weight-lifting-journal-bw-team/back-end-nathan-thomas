@@ -16,7 +16,7 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
 - [Auth Routes](#auth-routes)
   - [Register](#register)
   - [Login](#login)
-- [User Routes](#user-routes)
+- [UserS Routes](#users-routes)
   - [Get Users](#get-users)
   - [Get User](#get-user)
   - [Update User](#update-user)
@@ -28,8 +28,6 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
   - [Create Workout](#create-workout)
   - [Update Workout](#update-workout)
   - [Delete Workout](#delete-workout)
-- [Miscellaneous Routes](#miscellaneous-routes)
-  - [Upload Image](#upload-image)
 
 # DATA SCHEMA (DATA STRUCTURES)
 
@@ -65,7 +63,7 @@ Complete data modeling and schema mockup can be found [here](https://www.dbdesig
   "workout_notes": "Awesome time.",         // String
   "body_region": "Legs",                    // String
   "max_weight": 200,                        // Integer
-  "progress_picture": <url string>,         // String
+  "progress_picture": <URL string>,         // String
   "user_id": 1                              // Integer, required (foreign key reference to "users" table)
 }
 ```
@@ -149,7 +147,7 @@ _example:_
   "first_name": "admin",
   "last_name": "istrator",
   "email": "email@gmail.com"
-  "profile_picture": <file>
+  "profile_picture": <returns either null or Cloudinary URL>
 }
 ```
 
