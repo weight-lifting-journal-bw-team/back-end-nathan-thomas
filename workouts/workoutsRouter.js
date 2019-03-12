@@ -1,7 +1,14 @@
 const express = require("express");
 const Workouts = require("./workoutsModel.js");
 
+// Cloudinary and multer imports
+const { multerUploads, dataUri } = require("../common/multerMiddleware.js");
+const { uploader, cloudinaryConfig } = require("../config/cloudinary.js");
+
 const router = express();
+
+// Pass through cloudinary middleware
+cloudinaryConfig(router);
 
 // Get all workouts API request
 router.get("/", async (req, res) => {
@@ -81,8 +88,11 @@ router.get("/user/:id", async (req, res) => {
 });
 
 // Create new workout for a user request
-router.post("/", async (req, res) => {
-  if (!req.body.workout_name || !req.body.user_id) {
+router.post("/", multerUploads, async (req, res) => {
+  // JSON.parse() and destructure req.body
+  const parsedWorkout = JSON.parse(req.body.workout);
+
+  if (!parsedWorkout.workout_name || !parsedWorkout.user_id) {
     return res.status(406).json({
       error: true,
       workout: [],
@@ -90,14 +100,29 @@ router.post("/", async (req, res) => {
         "Please include required workout name and user ID details and try again."
     });
   }
+
+  // Strip image file from request and send to cloudinary for returned URL or null if failed
+  const file = dataUri(req).content;
+  let imgUrl = null;
+  if (file) {
+    const result = await uploader.upload(file);
+    imgUrl = result.url;
+  }
+
+  // Conditionaly insertion of different image URLs based on workout submission
+  const picture = imgUrl ? imgUrl : null;
+
+  // Compile new user and insert into database
+  const compiledWorkout = { ...parsedWorkout, progress_picture: picture };
+
   try {
-    const workout = await Workouts.insert(req.body);
+    const workout = await Workouts.insert(compiledWorkout);
     if (workout) {
       const newWorkout = await Workouts.find()
         .where({
-          workout_name: req.body.workout_name,
-          workout_date: req.body.workout_date,
-          user_id: req.body.user_id
+          workout_name: parsedWorkout.workout_name,
+          workout_date: parsedWorkout.workout_date,
+          user_id: parsedWorkout.user_id
         })
         .first();
       if (newWorkout) {

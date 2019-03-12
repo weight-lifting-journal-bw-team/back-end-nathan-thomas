@@ -10,13 +10,29 @@ class App extends Component {
       last_name: "istrator",
       email: "emaaasdf"
     },
+    workout: {
+      workout_name: "Monday crunches",
+      workout_date: "1552321015541",
+      workout_type: "Strength",
+      workout_subtype: "General Strength",
+      workout_sets: 10,
+      workout_reps: 20,
+      workout_time: 30,
+      workout_distance: null,
+      workout_notes:
+        "Great workout. Remember to grab cheese and milk on the way home!",
+      body_region: "Abdominal",
+      max_weight: null,
+      user_id: 1
+    },
+    progress_picture: null,
     profile_picture: null
   };
   handleFile = e => {
     this.setState(
       {
         ...this.state,
-        profile_picture: e.target.files[0]
+        progress_picture: e.target.files[0]
       },
       () => console.log(this.state)
     );
@@ -33,13 +49,20 @@ class App extends Component {
     };
 
     const formData = new FormData();
-    let rawData = { ...this.state.user };
+    // let rawData = { ...this.state.user };
+    let rawData = { ...this.state.workout };
     rawData = JSON.stringify(rawData);
-    formData.append("user", rawData);
-    formData.append("image", this.state.profile_picture);
+    // formData.append("user", rawData);
+    formData.append("workout", rawData);
+    // formData.append("image", this.state.profile_picture);
+    formData.append("image", this.state.progress_picture);
 
     axios
-      .put("http://localhost:7000/api/restricted/users/1", formData, reqOptions)
+      .post(
+        "http://localhost:7000/api/restricted/workouts",
+        formData,
+        reqOptions
+      )
       .then(res => {
         console.log(res.data);
       })
