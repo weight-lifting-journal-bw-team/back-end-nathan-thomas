@@ -5,18 +5,11 @@ const Users = require("../users/usersModel.js");
 const tokenService = require("../auth/tokenService.js");
 const authConstraints = require("./authConstraints.js");
 
-// Cloudinary and multer imports
-const { multerUploads, dataUri } = require("../common/multerMiddleware.js");
-const { uploader, cloudinaryConfig } = require("../config/cloudinary.js");
-
 // Creates router for specific API route
 const router = express.Router();
 
-// Pass through cloudinary middleware
-cloudinaryConfig(router);
-
 // New user registration request
-router.post("/register", authConstraints, async (req, res) => {
+router.post("/register", async (req, res) => {
   const newUser = req.body;
   try {
     // Encryption of password
@@ -37,12 +30,11 @@ router.post("/register", authConstraints, async (req, res) => {
         message: "Your account was created successfully.",
         token,
         user: {
-          user_id: newUserProfile.user_id,
+          id: newUserProfile.id,
           username: newUserProfile.username,
-          first_name: newUserProfile.first_name,
-          last_name: newUserProfile.last_name,
+          firstName: newUserProfile.firstName,
+          lastName: newUserProfile.lastName,
           email: newUserProfile.email,
-          profile_picture: newUserProfile.profile_picture,
           created_at: newUserProfile.created_at,
           updated_at: newUserProfile.updated_at
         }
@@ -80,12 +72,11 @@ router.post("/login", async (req, res) => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = tokenService.generateToken(user);
         const {
-          user_id,
+          id,
           username,
-          first_name,
-          last_name,
+          firstName,
+          lastName,
           email,
-          profile_picture,
           created_at,
           updated_at
         } = user;
@@ -94,12 +85,11 @@ router.post("/login", async (req, res) => {
           message: "You were logged in successfully.",
           token,
           user: {
-            user_id,
+            id,
             username,
-            first_name,
-            last_name,
+            firstName,
+            lastName,
             email,
-            profile_picture,
             created_at,
             updated_at
           }
