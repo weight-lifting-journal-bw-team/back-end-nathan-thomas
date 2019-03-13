@@ -10,7 +10,6 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
 
 ## Table of Contents
 
-- [Data Schema](#data-schema-data-structures)
 - [Test User Accounts](#test-user-accounts)
 - [Summary Table of API Endpoints](#summary-table-of-api-endpoints)
 - [Auth Routes](#auth-routes)
@@ -21,59 +20,53 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
   - [Get User](#get-user)
   - [Update User](#update-user)
   - [Delete User](#delete-user)
-- [Workouts Routes](#workouts-routes)
-  - [Get Workouts](#get-workouts)
-  - [Get Workout](#get-workout)
-  - [Get Workouts by User](#get-workouts-by-user)
-  - [Create Workout](#create-workout)
-  - [Update Workout](#update-workout)
-  - [Delete Workout](#delete-workout)
+- [Journals Routes](#journals-routes)
+  - [Journals Routes](#journals-routes)
 
 # DATA SCHEMA (DATA STRUCTURES)
-
-Complete data modeling and schema mockup can be found [here](https://www.dbdesigner.net/designer/schema/233119).
 
 `Users`
 
 ```
 {
-  "user_id": 1,                             // Integer (primary key provided by server and autoincrements)
+  "id": 1,                                  // Integer (primary key provided by server and autoincrements)
   "username": "admin",                      // String, required
   "password": "password",                   // String, required
-  "first_name": "admin",                    // String, required
-  "last_name": "istrator",                  // String, required
+  "firstName": "admin",                     // String, required
+  "lastName": "istrator",                   // String, required
   "email": "email@gmail.com"                // String, required
-  "profile_picture": <url string>           // String
 }
 ```
 
-`Workouts`
+`Journals`
 
 ```
 {
-  "workout_id": 1,                          // Integer (primary key provided by server and autoincrements)
-  "workout_name": "Killing it",             // String, required
-  "workout_date": 1552119140250,            // String, required (BigInt value is retrieved as string)
-  "workout_type": "Weight Lifting",         // String
-  "workout_subtype": "Squats",              // String
-  "workout_sets": 5,                        // Integer
-  "workout_reps": 8,                        // Integer
-  "workout_time": 60,                       // Integer
-  "workout_distance": 50,                   // Integer
-  "workout_notes": "Awesome time.",         // String
-  "body_region": "Legs",                    // String
-  "max_weight": 200,                        // Integer
-  "progress_picture": <URL string>,         // String
-  "user_id": 1                              // Integer, required (foreign key reference to "users" table)
+  "id": 1,                                  // Integer (primary key provided by server and autoincrements)
+  "date": "Jan 20, 2019,                    // String, required
+  "region": "Legs",                         // String
+  "userId": 1                               // Integer, required (foreign key reference to "users" table)
+}
+```
+
+`Exercises`
+
+```
+{
+  "id": 1,                                  // Integer (primary key provided by server and autoincrements)
+  "journalId": 1,                           // Integer, required (foreign key reference to "users" table)
+  "userId": 1,                              // Integer, required
+  "name": "Squats",                         // String
+  "reps": 10,                               // Integer
+  "sets": 5,                                // Integer
+  "weight": 200                             // Integer
 }
 ```
 
 _All workouts measurements are stored using the following measurements:_
 
 ```
-  Date: Milliseconds
-  Distance: Feet
-  Weight: Pounds
+  weight = pounds
 
 ```
 
@@ -95,21 +88,19 @@ _All workouts measurements are stored using the following measurements:_
 
 # SUMMARY TABLE OF API ENDPOINTS
 
-| Table    | Method | Endpoint                          | Description                                                                                                                                                                                    |
-| -------- | ------ | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| auth     | POST   | /api/auth/register                | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` and a JSON Web Token in the `body` of the response.   |
-| auth     | POST   | /api/auth/login                   | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Web Token token in the `body` of the response. |
-| users    | GET    | /api/restricted/users             | Retrieves an array of `user` objects and returns a message with the array in the `body` of the response.                                                                                       |
-| users    | GET    | /api/restricted/users/:id         | Retrieves a single `user` object and returns a message with the object inside the `body` of the response.                                                                                      |
-| users    | PUT    | /api/restricted/users/:id         | Updates a `user` in the database using the information sent inside the `body` of the request and returns a message with the updated `user` profile.                                            |
-| users    | DELETE | /api/restricted/users/:id         | Removes a `user` from the database using the id sent in the URL parameters of the response.                                                                                                    |
-| workouts | GET    | /api/restricted/workouts          | Retrieves an array of `workout` objects and returns a message with the array in the `body` of the response.                                                                                    |
-| workouts | GET    | /api/restricted/workouts/:id      | Retrieves a single `workout` object using the id sent in the URL parameters of the request and returns a message with the object inside the `body` of the response.                            |
-| workouts | GET    | /api/restricted/workouts/user/:id | Retrieves an array of `workout` objects for a single user using the id sent in the URL parameters of the request and returns a message with the array inside the `body` of the response.       |
-| workouts | POST   | /api/restricted/workouts          | Uses the information sent inside the `body` to create a new `workout` for a specified user by included `user_id` and returns a message along with the new `workout`.                           |
-| workouts | PUT    | /api/restricted/workouts/:id      | Uses the information sent inside the `body` to update a single `workout` using the id sent in the URL parameters of the request and returns a message along with the updated `workout`.        |
-| workouts | DELETE | /api/restricted/workouts/:id      | Removes a `workout` in the database using the id sent in the URL parameters of the request.                                                                                                    |
-|          | POST   | /api/restricted/images            | Takes in `FormData` for an image, uploads it to Cloudinary, and returns the URL to the client                                                                                                  |
+| Table    | Method | Endpoint                     | Description                                                                                                                                                                                    |
+| -------- | ------ | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| auth     | POST   | /api/auth/register           | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` and a JSON Web Token in the `body` of the response.   |
+| auth     | POST   | /api/auth/login              | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Web Token token in the `body` of the response. |
+| users    | GET    | /api/restricted/users        | Retrieves an array of `user` objects and returns a message with the array in the `body` of the response.                                                                                       |
+| users    | GET    | /api/restricted/users/:id    | Retrieves a single `user` object and returns a message with the object inside the `body` of the response.                                                                                      |
+| users    | PUT    | /api/restricted/users/:id    | Updates a `user` in the database using the information sent inside the `body` of the request and returns a message with the updated `user` profile.                                            |
+| users    | DELETE | /api/restricted/users/:id    | Removes a `user` from the database using the id sent in the URL parameters of the response.                                                                                                    |
+| journals | GET    | /api/restricted/journals     | Retrieves an array of `journal` objects and returns a message with the array in the `body` of the response.                                                                                    |
+| journals | GET    | /api/restricted/journals/:id | Retrieves a single `journal` object using the id sent in the URL parameters of the request and returns a message with the object inside the `body` of the response.                            |
+| journals | POST   | /api/restricted/journals     | Uses the information sent inside the `body` to create a new `journal` for a specified user by included `userId` and returns a message along with the new `journal`.                            |
+| journals | PUT    | /api/restricted/journals/:id | Uses the information sent inside the `body` to update a single `journal` using the id sent in the URL parameters of the request and returns a message along with the updated `journal`.        |
+| journals | DELETE | /api/restricted/journals/:id | Removes a `journal` in the database using the id sent in the URL parameters of the request.                                                                                                    |
 
 # AUTH ROUTES
 
