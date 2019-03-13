@@ -159,12 +159,11 @@ router.put("/:id", multerUploads, async (req, res) => {
   // JSON.parse() and destructure req.body
   const parsedWorkout = JSON.parse(req.body.workout);
 
-  if (!parsedWorkout || !parsedWorkout.workout_name || !parsedWorkout.user_id) {
+  if (!parsedWorkout) {
     return res.status(406).json({
       error: true,
       workout: [],
-      message:
-        "Please include required workout name and user ID details and try again.",
+      message: "Please include required workout details and try again.",
       numUpdated: 0
     });
   }
@@ -181,7 +180,10 @@ router.put("/:id", multerUploads, async (req, res) => {
   const picture = imgUrl ? imgUrl : null;
 
   // Compile new user and insert into database
-  const compiledWorkout = { ...parsedWorkout, progress_picture: picture };
+  const compiledWorkout = {
+    ...parsedWorkout,
+    progress_picture: picture
+  };
 
   try {
     const updatedWorkout = await Workouts.update(

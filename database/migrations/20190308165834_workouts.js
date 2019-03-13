@@ -14,6 +14,7 @@ exports.up = function(knex, Promise) {
     tbl.integer("workout_distance").unsigned(); // Stored as feet
     tbl.string("workout_notes", 256);
     tbl.string("body_region", 128);
+    tbl.integer("current_weight").unsigned(); // Stored as lbs
     tbl.integer("max_weight").unsigned(); // Stored as lbs
     tbl.string("progress_picture", 1000);
 

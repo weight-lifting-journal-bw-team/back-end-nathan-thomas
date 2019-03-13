@@ -16,6 +16,7 @@ exports.seed = function(knex, Promise) {
             "Had to hoverboard away from some crazy futuristic bullies.",
           body_region: "Legs",
           max_weight: null,
+          current_weight: 190,
           progress_picture: null,
           user_id: 2
         },
@@ -31,6 +32,7 @@ exports.seed = function(knex, Promise) {
           workout_notes: "Roads? Where we're going we don't need roads....",
           body_region: "Full Body",
           max_weight: null,
+          current_weight: 178,
           progress_picture: null,
           user_id: 3
         },
@@ -47,6 +49,7 @@ exports.seed = function(knex, Promise) {
             "I know you just sent me back to the future, but I'm back. I'm back from the future.",
           body_region: "Full Body",
           max_weight: null,
+          current_weight: 200,
           progress_picture: null,
           user_id: 3
         },
@@ -63,6 +66,7 @@ exports.seed = function(knex, Promise) {
             "Oh my God. They found me. I don't know how, but they found me. Run for it, Marty!!",
           body_region: "Full Body",
           max_weight: null,
+          current_weight: 150,
           progress_picture: null,
           user_id: 3
         },
@@ -79,6 +83,7 @@ exports.seed = function(knex, Promise) {
             "Wait a minute. Wait a minute Doc, uh, are you telling me you built a time machine … out of a DeLorean?",
           body_region: "Legs",
           max_weight: 215,
+          current_weight: 200,
           progress_picture: null,
           user_id: 2
         },
@@ -95,6 +100,7 @@ exports.seed = function(knex, Promise) {
             "Great workout. Remember to grab cheese and milk on the way home!",
           body_region: "Abdominal",
           max_weight: null,
+          current_weight: 187,
           progress_picture: null,
           user_id: 1
         },
@@ -110,6 +116,7 @@ exports.seed = function(knex, Promise) {
           workout_notes: "I think my legs are going to be sore.",
           body_region: "Legs",
           max_weight: null,
+          current_weight: 210,
           progress_picture: null,
           user_id: 1
         },
@@ -126,6 +133,7 @@ exports.seed = function(knex, Promise) {
             "Great workout... Remember to keep proper form next time.",
           body_region: "Shoulders",
           max_weight: 150,
+          current_weight: 198,
           progress_picture: null,
           user_id: 1
         },
@@ -142,6 +150,7 @@ exports.seed = function(knex, Promise) {
             "I finally started martial arts! Always wanted to do this. I feel like I'm really bad at it though....",
           body_region: "Full Body",
           max_weight: null,
+          current_weight: 145,
           progress_picture: null,
           user_id: 1
         }
