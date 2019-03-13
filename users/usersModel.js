@@ -11,13 +11,12 @@ module.exports = {
 
 function find() {
   return db("users").select(
-    "user_id",
+    "id",
     "username",
     "password",
-    "first_name",
-    "last_name",
+    "firstName",
+    "lastName",
     "email",
-    "profile_picture",
     "created_at",
     "updated_at"
   );
@@ -25,12 +24,11 @@ function find() {
 
 function findWithoutPassword() {
   return db("users").select(
-    "user_id",
+    "id",
     "username",
-    "first_name",
-    "last_name",
+    "firstName",
+    "lastName",
     "email",
-    "profile_picture",
     "created_at",
     "updated_at"
   );
@@ -38,14 +36,13 @@ function findWithoutPassword() {
 
 function findById(id) {
   return db("users")
-    .where({ user_id: id })
+    .where({ id })
     .select(
-      "user_id",
+      "id",
       "username",
-      "first_name",
-      "last_name",
+      "firstName",
+      "lastName",
       "email",
-      "profile_picture",
       "created_at",
       "updated_at"
     )
@@ -53,19 +50,19 @@ function findById(id) {
 }
 
 function insert(creds) {
-  return db("users")
+  return (user = db("users")
     .insert(creds)
-    .then(ids => 1);
+    .then(ids => 1));
 }
 
 function update(id, changes) {
   return db("users")
-    .where({ user_id: id })
+    .where({ id })
     .update(changes);
 }
 
 function remove(id) {
   return db("users")
-    .where({ user_id: id })
+    .where({ id })
     .del();
 }

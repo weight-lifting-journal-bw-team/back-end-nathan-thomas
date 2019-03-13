@@ -3,7 +3,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable("users", tbl => {
     // Unique user id
-    tbl.increments();
+    tbl.increments("id");
 
     // User profile
     tbl.string("username", 256).notNullable();

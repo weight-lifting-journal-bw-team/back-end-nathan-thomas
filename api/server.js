@@ -11,12 +11,14 @@ configureGeneralMiddleware(server);
 const restricted = require("../auth/restricted.js");
 
 // Import various split API routes
-const workoutsRouter = require("../workouts/workoutsRouter.js");
+const exercisesRouter = require("../exercises/exercisesRouter.js");
+const journalRouter = require("../journals/journalsRouter.js");
 const usersRouter = require("../users/usersRouter.js");
 const authRouter = require("../auth/authRouter.js");
 
 // Router assignments
-server.use("/api/restricted/workouts", restricted, workoutsRouter);
+server.use("/api/restricted/exercises", restricted, exercisesRouter);
+server.use("/api/restricted/journals", restricted, journalRouter);
 server.use("/api/restricted/users", restricted, usersRouter);
 server.use("/api/auth", authRouter);
 

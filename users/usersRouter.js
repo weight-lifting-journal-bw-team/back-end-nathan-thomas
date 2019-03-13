@@ -2,14 +2,7 @@ const express = require("express");
 const Users = require("./usersModel.js");
 const bcrypt = require("bcryptjs");
 
-// Cloudinary and multer imports
-const { multerUploads, dataUri } = require("../common/multerMiddleware.js");
-const { uploader, cloudinaryConfig } = require("../config/cloudinary.js");
-
 const router = express.Router();
-
-// Pass through cloudinary middleware
-cloudinaryConfig(router);
 
 // Get all users request
 router.get("/", async (req, res) => {
@@ -68,8 +61,8 @@ router.put("/:id", async (req, res) => {
   if (
     !req.body.username ||
     !req.body.password ||
-    !req.body.first_name ||
-    !req.body.last_name ||
+    !req.body.firstName ||
+    !req.body.lastName ||
     !req.body.email
   ) {
     res.status(406).json({
@@ -96,12 +89,11 @@ router.put("/:id", async (req, res) => {
         message: "Your profile was updated successfully.",
         numUpdated: updatedUser,
         user: {
-          user_id: user.user_id,
+          id: user.id,
           username: user.username,
-          first_name: user.first_name,
-          last_name: user.first_name,
+          firstName: user.firstName,
+          lastName: user.firstName,
           email: user.email,
-          profile_picture: user.profile_picture,
           created_at: user.created_at,
           updated_at: user.updated_at
         }
