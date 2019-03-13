@@ -88,19 +88,25 @@ _All workouts measurements are stored using the following measurements:_
 
 # SUMMARY TABLE OF API ENDPOINTS
 
-| Table    | Method | Endpoint                     | Description                                                                                                                                                                                    |
-| -------- | ------ | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| auth     | POST   | /api/auth/register           | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` and a JSON Web Token in the `body` of the response.   |
-| auth     | POST   | /api/auth/login              | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Web Token token in the `body` of the response. |
-| users    | GET    | /api/restricted/users        | Retrieves an array of `user` objects and returns a message with the array in the `body` of the response.                                                                                       |
-| users    | GET    | /api/restricted/users/:id    | Retrieves a single `user` object and returns a message with the object inside the `body` of the response.                                                                                      |
-| users    | PUT    | /api/restricted/users/:id    | Updates a `user` in the database using the information sent inside the `body` of the request and returns a message with the updated `user` profile.                                            |
-| users    | DELETE | /api/restricted/users/:id    | Removes a `user` from the database using the id sent in the URL parameters of the response.                                                                                                    |
-| journals | GET    | /api/restricted/journals     | Retrieves an array of `journal` objects and returns a message with the array in the `body` of the response.                                                                                    |
-| journals | GET    | /api/restricted/journals/:id | Retrieves a single `journal` object using the id sent in the URL parameters of the request and returns a message with the object inside the `body` of the response.                            |
-| journals | POST   | /api/restricted/journals     | Uses the information sent inside the `body` to create a new `journal` for a specified user by included `userId` and returns a message along with the new `journal`.                            |
-| journals | PUT    | /api/restricted/journals/:id | Uses the information sent inside the `body` to update a single `journal` using the id sent in the URL parameters of the request and returns a message along with the updated `journal`.        |
-| journals | DELETE | /api/restricted/journals/:id | Removes a `journal` in the database using the id sent in the URL parameters of the request.                                                                                                    |
+| Table     | Method | Endpoint                              | Description                                                                                                                                                                                    |
+| --------- | ------ | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| auth      | POST   | /api/auth/register                    | Creates a new `user` profile using the information sent inside the `body` of the request and returns a message along with the new `user` and a JSON Web Token in the `body` of the response.   |
+| auth      | POST   | /api/auth/login                       | Uses the credentials sent inside the `body` to authenticate the user. On successful login, returns a message with the `user` profile and a JSON Web Token token in the `body` of the response. |
+| users     | GET    | /api/restricted/users                 | Retrieves an array of `user` objects and returns a message with the array in the `body` of the response.                                                                                       |
+| users     | GET    | /api/restricted/users/:id             | Retrieves a single `user` object and returns a message with the object inside the `body` of the response.                                                                                      |
+| users     | PUT    | /api/restricted/users/:id             | Updates a `user` in the database using the information sent inside the `body` of the request and returns a message with the updated `user` profile.                                            |
+| users     | DELETE | /api/restricted/users/:id             | Removes a `user` from the database using the id sent in the URL parameters of the response.                                                                                                    |
+| journals  | GET    | /api/restricted/journals              | Retrieves an array of `journal` objects and returns a message with the array in the `body` of the response.                                                                                    |
+| journals  | GET    | /api/restricted/journals/:id          | Retrieves a single `journal` object using the id sent in the URL parameters of the request and returns a message with the object inside the `body` of the response.                            |
+| journals  | POST   | /api/restricted/journals              | Uses the information sent inside the `body` to create a new `journal` for a specified user by included `userId` and returns a message along with the new `journal`.                            |
+| journals  | PUT    | /api/restricted/journals/:id          | Uses the information sent inside the `body` to update a single `journal` using the id sent in the URL parameters of the request and returns a message along with the updated `journal`.        |
+| journals  | DELETE | /api/restricted/journals/:id          | Removes a `journal` in the database using the id sent in the URL parameters of the request.                                                                                                    |
+| exercises | GET    | /api/restricted/exercises             | Retrieves an array of `exercise` objects and returns a message with the array in the `body` of the response.                                                                                   |
+| exercises | GET    | /api/restricted/exercises/journal/:id | Retrieves a single `journal` object's `exercises` using the id sent in the URL parameters of the request and returns a message with the `exercises` inside the `body` of the response.         |
+| exercises | GET    | /api/restricted/exercises/:id         | Retrieves a single `exercise` object and returns a message with the object in the `body` of the response.                                                                                      |
+| exercises | POST   | /api/restricted/exercises             | Uses the information sent inside the `body` to create a new `exercise` for a specified user by included `userId` and returns a message along with the new `exercise`.                          |
+| exercises | PUT    | /api/restricted/exercises/:id         | Uses the information sent inside the `body` to update a single `exercise` using the id sent in the URL parameters of the request and returns a message along with the updated `exercise`.      |
+| exercises | DELETE | /api/restricted/exercises/:id         | Removes an `exercise` in the database using the id sent in the URL parameters of the request.                                                                                                  |
 
 # AUTH ROUTES
 
@@ -120,14 +126,13 @@ _HTTP method:_ **[POST]**
 
 #### Body
 
-| name              | type   | required | description    |
-| ----------------- | ------ | -------- | -------------- |
-| `username`        | String | Yes      | Must be unique |
-| `password`        | String | Yes      |                |
-| `first_name`      | String | Yes      |                |
-| `last_name`       | String | Yes      |                |
-| `email`           | String | Yes      | Must be unique |
-| `profile_picture` | String | No       |                |
+| name        | type   | required | description    |
+| ----------- | ------ | -------- | -------------- |
+| `username`  | String | Yes      | Must be unique |
+| `password`  | String | Yes      |                |
+| `firstName` | String | Yes      |                |
+| `lastName`  | String | Yes      |                |
+| `email`     | String | Yes      | Must be unique |
 
 _example:_
 
@@ -135,10 +140,9 @@ _example:_
 {
   "username": "lauren",
   "password": "password123",
-  "first_name": "admin",
-  "last_name": "istrator",
+  "firstName": "admin",
+  "lastName": "istrator",
   "email": "email@gmail.com"
-  "profile_picture": <returns either null or Cloudinary URL>
 }
 ```
 
@@ -154,12 +158,11 @@ _example:_
   "message": "Your account was created successfully."
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI3IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTQ0MzM1NjUxLCJleHAiOjE1NzU4OTMyNTF9.uqd2OHBYkGQpwjLTPPiPWYkYOKlG7whQDFkk46xFXoX",
   "user": {
-    "user_id": 1,
+    "id": 1,
     "username": "admin",
-    "first_name": "admin",
-    "last_name": "istrator",
+    "firstName": "admin",
+    "lastName": "istrator",
     "email": "email@gmail.com",
-    "profile_picture": <cloudinary URL>,
     "created_at": "2019-03-09 08:26:34",
     "updated_at": "2019-03-09 08:26:34"
   }
@@ -243,7 +246,7 @@ _example:_
 ```
 {
   "username": "mcfly",
-  "password": "thatDeloreanTho"
+  "password": "password"
 }
 ```
 
@@ -264,7 +267,6 @@ _example:_
     "first_name": "nathan",
     "last_name": "thomas",
     "email": "nwthomas@me.com",
-    "profile_picture": <cloudinary URL>,
     "created_at": "2019-03-09 08:26:34",
     "updated_at": "2019-03-09 08:26:34"
   }
@@ -291,7 +293,7 @@ _example:_
 {
   "error": true,
   "user": {},
-  "message": "The requested content does not exist."
+  "message": "Sorry, you could not be logged in."
 }
 ```
 
@@ -338,22 +340,20 @@ _HTTP method:_ **[GET]**
   "message": "The users were found in the database.",
   "users": [
     {
-      "user_id": 1,
+      "id": 1,
       "username": "admin",
-      "first_name": "admin",
-      "last_name": "istrator",
+      "firstName": "admin",
+      "lastName": "istrator",
       "email": "email@gmail.com",
-      "profile_picture": <cloudinary URL>,
       "created_at": "2019-03-11T04:18:42.916Z",
       "updated_at": "2019-03-11T04:18:42.916Z"
     },
     {
-      "user_id": 2,
+      "id": 2,
       "username": "mcfly",
-      "first_name": "Marty",
-      "last_name": "McFly",
+      "firstName": "Marty",
+      "lastName": "McFly",
       "email": "thelibyans@gmail.com",
-      "profile_picture": <cloudinary URL>,
       "created_at": "2019-03-11T04:18:42.916Z",
       "updated_at": "2019-03-11T04:18:42.916Z"
     }
@@ -418,12 +418,11 @@ _HTTP method:_ **[GET]**
   "error": false,
   "message": "Your profile was retrieved successfully."
   "user": {
-    "user_id": 1,
+    "id": 1,
     "username": "admin",
-    "first_name": "admin",
-    "last_name": "istrator",
+    "firstName": "admin",
+    "lastName": "istrator",
     "email": "email@gmail.com",
-    "profile_picture": <cloudinary URL>,
     "created_at": "2019-03-09 08:26:34",
     "updated_at": "2019-03-09 08:26:34"
   }
@@ -473,20 +472,19 @@ _HTTP method:_ **[PUT]**
 
 #### Parameters
 
-| name      | type    | required | description           |
-| --------- | ------- | -------- | --------------------- |
-| `user_id` | Integer | Yes      | ID of a specific user |
+| name | type    | required | description           |
+| ---- | ------- | -------- | --------------------- |
+| `id` | Integer | Yes      | ID of a specific user |
 
 #### Body
 
-| name              | type   | required | description    |
-| ----------------- | ------ | -------- | -------------- |
-| `username`        | String | Yes      | Must be unique |
-| `password`        | String | Yes      |                |
-| `first_name`      | String | Yes      |                |
-| `last_name`       | String | Yes      |                |
-| `email`           | String | Yes      | Must be unique |
-| `profile_picture` | String | No       |                |
+| name         | type   | required | description    |
+| ------------ | ------ | -------- | -------------- |
+| `username`   | String | Yes      | Must be unique |
+| `password`   | String | Yes      |                |
+| `first_name` | String | Yes      |                |
+| `last_name`  | String | Yes      |                |
+| `email`      | String | Yes      | Must be unique |
 
 #### Response
 
@@ -500,12 +498,11 @@ _HTTP method:_ **[PUT]**
   "message": "Your profile was updated successfully.",
   "numUpdated": 1,
   "user": {
-    "user_id": 1,
+    "id": 1,
     "username": "admin",
-    "first_name": "admin",
-    "last_name": "istrator",
+    "firstName": "admin",
+    "lastName": "istrator",
     "email": "email@gmail.com",
-    "profile_picture": <cloudinary URL>,
     "created_at": "2019-03-09 08:26:34",
     "updated_at": "2019-03-09 08:26:34"
   }
@@ -570,9 +567,9 @@ _HTTP method:_ **[DELETE]**
 
 #### Parameters
 
-| name      | type    | required | description           |
-| --------- | ------- | -------- | --------------------- |
-| `user_id` | Integer | Yes      | ID of a specific user |
+| name | type    | required | description           |
+| ---- | ------- | -------- | --------------------- |
+| `id` | Integer | Yes      | ID of a specific user |
 
 #### Response
 
