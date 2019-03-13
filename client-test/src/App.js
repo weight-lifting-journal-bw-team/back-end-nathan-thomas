@@ -4,11 +4,11 @@ import axios from "axios";
 class App extends Component {
   state = {
     user: {
-      username: "admi",
+      username: "adminasd",
       password: "password",
       first_name: "admin",
       last_name: "istrator",
-      email: "emaaasdf"
+      email: "emaa"
     },
     workout: {
       workout_name: "Monday crunche",
@@ -32,7 +32,7 @@ class App extends Component {
     this.setState(
       {
         ...this.state,
-        progress_picture: e.target.files[0]
+        profile_picture: e.target.files[0]
       },
       () => console.log(this.state)
     );
@@ -41,7 +41,7 @@ class App extends Component {
     e.preventDefault();
 
     const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyMzU0MjI0LCJleHAiOjE1NTI0NDA2MjR9.gO9bRJxkaXka2N0TQ7dEv7vllbzeL8DlkOPIKR0kdq4";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyNDU0NTc0LCJleHAiOjE1NTI1NDA5NzR9.PZZghnNaR99fLjg_UDPt0F8aBcu57tzk6RZTGghlbPU";
 
     const reqOptions = {
       headers: { authorization: token },
@@ -49,13 +49,13 @@ class App extends Component {
     };
 
     const formData = new FormData();
-    // let rawData = { ...this.state.user };
-    let rawData = { ...this.state.workout };
+    let rawData = { ...this.state.user };
+    // let rawData = { ...this.state.workout };
     rawData = JSON.stringify(rawData);
-    // formData.append("user", rawData);
-    formData.append("workout", rawData);
-    // formData.append("image", this.state.profile_picture);
-    formData.append("image", this.state.progress_picture);
+    formData.append("user", rawData);
+    // formData.append("workout", rawData);
+    formData.append("image", this.state.profile_picture);
+    // formData.append("image", this.state.progress_picture);
 
     axios
       .put(

@@ -16,33 +16,19 @@ const router = express.Router();
 cloudinaryConfig(router);
 
 // New user registration request
-router.post("/register", multerUploads, authConstraints, async (req, res) => {
+router.post("/register", authConstraints, async (req, res) => {
+  const newUser = req.body;
   try {
-    // JSON.parse() and destructure req.body
-    const parsedNewUser = JSON.parse(req.body.user);
-    // Strip image file from request and send to cloudinary for returned URL or null if failed
-    const file = dataUri(req).content;
-    let imgUrl = null;
-    if (file) {
-      const result = await uploader.upload(file);
-      imgUrl = result.url;
-    }
-
     // Encryption of password
-    const hash = bcrypt.hashSync(parsedNewUser.password, 14); // Must be the same as the seeds
-    req.body.password = hash;
+    const hash = bcrypt.hashSync(newUser.password, 14); // Must be the same as the seeds
+    newUser.password = hash;
 
-    // Conditionaly insertion of different image URLs based on user submission
-    const picture = imgUrl ? imgUrl : null;
-
-    // Compile new user and insert into database
-    const compiledUser = { ...parsedNewUser, profile_picture: picture };
-    const user = await Users.insert(compiledUser);
+    const user = await Users.insert(newUser);
 
     if (user) {
       const newUserProfile = await Users.find()
         .where({
-          username: parsedNewUser.username
+          username: newUser.username
         })
         .first();
       const token = tokenService.generateToken(newUserProfile);
