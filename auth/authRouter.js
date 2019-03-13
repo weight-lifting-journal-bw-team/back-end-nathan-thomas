@@ -20,7 +20,6 @@ router.post("/register", multerUploads, authConstraints, async (req, res) => {
   try {
     // JSON.parse() and destructure req.body
     const parsedNewUser = JSON.parse(req.body.user);
-
     // Strip image file from request and send to cloudinary for returned URL or null if failed
     const file = dataUri(req).content;
     let imgUrl = null;
@@ -31,12 +30,10 @@ router.post("/register", multerUploads, authConstraints, async (req, res) => {
 
     // Encryption of password
     const hash = bcrypt.hashSync(parsedNewUser.password, 14); // Must be the same as the seeds
-    parsedNewUser.password = hash;
+    req.body.password = hash;
 
     // Conditionaly insertion of different image URLs based on user submission
-    const picture = imgUrl
-      ? imgUrl
-      : "http://res.cloudinary.com/personal-cloudinary/image/upload/v1552422242/hczfxlqfzq6eyyfhlfwk.png";
+    const picture = imgUrl ? imgUrl : null;
 
     // Compile new user and insert into database
     const compiledUser = { ...parsedNewUser, profile_picture: picture };

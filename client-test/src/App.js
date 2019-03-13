@@ -4,11 +4,11 @@ import axios from "axios";
 class App extends Component {
   state = {
     user: {
-      username: "admiasdfasdf",
+      username: "admi",
       password: "password",
       first_name: "admin",
       last_name: "istrator",
-      email: "emaaaasdfasasdf"
+      email: "emaaasdf"
     },
     workout: {
       workout_name: "Monday crunche",
@@ -22,17 +22,17 @@ class App extends Component {
       workout_notes:
         "Great workout. Remember to grab cheese and milk on the way home!",
       body_region: "Abdominal",
-      max_weight: null
+      max_weight: null,
+      user_id: 1
     },
     progress_picture: null,
     profile_picture: null
   };
-
   handleFile = e => {
     this.setState(
       {
         ...this.state,
-        profile_picture: e.target.files[0]
+        progress_picture: e.target.files[0]
       },
       () => console.log(this.state)
     );
@@ -41,7 +41,7 @@ class App extends Component {
     e.preventDefault();
 
     const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyNDU0NTc0LCJleHAiOjE1NTI1NDA5NzR9.PZZghnNaR99fLjg_UDPt0F8aBcu57tzk6RZTGghlbPU";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyMzU0MjI0LCJleHAiOjE1NTI0NDA2MjR9.gO9bRJxkaXka2N0TQ7dEv7vllbzeL8DlkOPIKR0kdq4";
 
     const reqOptions = {
       headers: { authorization: token },
@@ -59,7 +59,7 @@ class App extends Component {
 
     axios
       .put(
-        "http://localhost:7000/api/restricted/workouts/2",
+        "http://localhost:7000/api/restricted/workouts/1",
         formData,
         reqOptions
       )
