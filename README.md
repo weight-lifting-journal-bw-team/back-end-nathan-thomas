@@ -63,6 +63,7 @@ Complete data modeling and schema mockup can be found [here](https://dbdesigner.
   "workout_notes": "Awesome time.",         // String
   "body_region": "Legs",                    // String
   "max_weight": 200,                        // Integer
+  "current_weight": 100,                    // Integer
   "progress_picture": <URL string>,         // String
   "user_id": 1                              // Integer, required (foreign key reference to "users" table)
 }
@@ -109,7 +110,6 @@ _All workouts measurements are stored using the following measurements:_
 | workouts | POST   | /api/restricted/workouts          | Uses the information sent inside the `body` to create a new `workout` for a specified user by included `user_id` and returns a message along with the new `workout`.                           |
 | workouts | PUT    | /api/restricted/workouts/:id      | Uses the information sent inside the `body` to update a single `workout` using the id sent in the URL parameters of the request and returns a message along with the updated `workout`.        |
 | workouts | DELETE | /api/restricted/workouts/:id      | Removes a `workout` in the database using the id sent in the URL parameters of the request.                                                                                                    |
-|          | POST   | /api/restricted/images            | Takes in `FormData` for an image, uploads it to Cloudinary, and returns the URL to the client                                                                                                  |
 
 # AUTH ROUTES
 
@@ -812,9 +812,9 @@ _HTTP method:_ **[GET]**
 
 #### Parameters
 
-| name      | type    | required | description              |
-| --------- | ------- | -------- | ------------------------ |
-| `user_id` | Integer | Yes      | ID of a specific workout |
+| name      | type    | required | description           |
+| --------- | ------- | -------- | --------------------- |
+| `user_id` | Integer | Yes      | ID of a specific user |
 
 #### Response
 
@@ -1030,6 +1030,12 @@ _HTTP method:_ **[PUT]**
 | `Content-Type`  | String | Yes      | Must be application/json |
 | `Authorization` | String | Yes      | JSON Web Token           |
 
+#### Parameters
+
+| name         | type    | required | description              |
+| ------------ | ------- | -------- | ------------------------ |
+| `workout_id` | Integer | Yes      | ID of a specific workout |
+
 #### Body
 
 | name               | type    | required | description                         |
@@ -1046,7 +1052,7 @@ _HTTP method:_ **[PUT]**
 | `body_region`      | String  | No       |                                     |
 | `max_weight`       | Integer | No       | Stored as lbs                       |
 | `progress_picture` | String  | No       |                                     |
-| `user_id`          | Integer | Yes      | Foreign key reference to user table |
+| `user_id`          | Integer | No       | Foreign key reference to user table |
 
 _example_
 
