@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get all journals request
+// Get journal by journal id request
 router.get("/:id", async (req, res) => {
   try {
     const journal = await Journals.findById(req.params.id);
@@ -55,7 +55,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Get all journals request
+// Create new journal request
 router.post("/", async (req, res) => {
   if (!req.body.userId) {
     res.status(406).json({
@@ -89,7 +89,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Get all journals request
+// Update existing journal request
 router.put("/:id", async (req, res) => {
   try {
     const journal = await Journals.update(req.params.id, req.body);
@@ -116,7 +116,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Get all journals request
+// Delete journal by id request
 router.delete("/:id", async (req, res) => {
   try {
     const journal = await Journals.remove(req.params.id);

@@ -21,7 +21,11 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
   - [Update User](#update-user)
   - [Delete User](#delete-user)
 - [Journals Routes](#journals-routes)
-  - [Journals Routes](#journals-routes)
+  - [Get Journals](#get-journals)
+  - [Get Journal by ID](#get-journal-by-id)
+  - [Create Journal](#create-journal)
+  - [Update Journal](#update-journal)
+  - [Delete Journal](#delete-journal)
 
 # DATA SCHEMA (DATA STRUCTURES)
 
@@ -611,13 +615,13 @@ _HTTP method:_ **[DELETE]**
 
 ---
 
-# WORKOUTS ROUTES
+# JOURNAL ROUTES
 
-## **GET WORKOUTS**
+## **GET JOURNALS**
 
-### **Get all workouts**
+### **Get all journals**
 
-_Method Url:_ `/api/restricted/workouts`
+_Method Url:_ `/api/restricted/journals`
 
 _HTTP method:_ **[GET]**
 
@@ -632,46 +636,26 @@ _HTTP method:_ **[GET]**
 
 ##### 200 (OK)
 
-> If workouts are found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+> If journals are found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
 
 ```
 {
   "error": false,
-  "message": "The workouts were retrieved successfully.",
+  "message": "The journals were retrieved successfully.",
   "workouts": [
       {
-          "workout_id": 1,
-          "workout_name": "Hoverboarding",
-          "workout_date": "1552286585353",
-          "workout_type": "Cardio",
-          "workout_subtype": "Skateboarding",
-          "workout_sets": null,
-          "workout_reps": null,
-          "workout_time": 60,
-          "workout_distance": 500,
-          "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
-          "body_region": "Legs",
-          "max_weight": null,
-          "progress_picture": null,
-          "user_id": 2,
+          "id": 1,
+          "date": "Jan 20, 2019",
+          "region": "Legs"
+          "userId": 2,
           "created_at": "2019-03-11T06:43:05.407Z",
           "updated_at": "2019-03-11T06:43:05.407Z"
       },
       {
-          "workout_id": 2,
-          "workout_name": "Time traveling like crazy",
-          "workout_date": "1552286585353",
-          "workout_type": "Cardio",
-          "workout_subtype": "General Aerobics",
-          "workout_sets": null,
-          "workout_reps": null,
-          "workout_time": 34,
-          "workout_distance": 162,
-          "workout_notes": "Roads? Where we're going we don't need roads....",
-          "body_region": "Full Body",
-          "max_weight": null,
-          "progress_picture": null,
-          "user_id": 3,
+          "id": 2,
+          "date": "Dec 19, 2017",
+          "region": "Full Body",
+          "userId": 3,
           "created_at": "2019-03-11T06:43:05.407Z",
           "updated_at": "2019-03-11T06:43:05.407Z"
       }
@@ -681,13 +665,13 @@ _HTTP method:_ **[GET]**
 
 ##### 404 (Not Found)
 
-> If there are no workouts in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+> If there are no journals in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
 
 ```
 {
   "error": true,
-  "workouts": [],
-  "message": "The workouts could not be found."
+  "journals": [],
+  "message": "The journals could not be found."
 }
 ```
 
@@ -698,18 +682,18 @@ _HTTP method:_ **[GET]**
 ```
 {
   "error": true,
-  "workouts": [],
+  "journals": [],
   "message": "There was a problem with your request."
 }
 ```
 
 ---
 
-## **GET WORKOUT**
+## **GET JOURNAL**
 
 ### **Get workout by workout ID**
 
-_Method Url:_ `/api/restricted/workouts/:id`
+_Method Url:_ `/api/restricted/journals/:id`
 
 _HTTP method:_ **[GET]**
 
@@ -722,35 +706,25 @@ _HTTP method:_ **[GET]**
 
 #### Parameters
 
-| name         | type    | required | description              |
-| ------------ | ------- | -------- | ------------------------ |
-| `workout_id` | Integer | Yes      | ID of a specific workout |
+| name | type    | required | description              |
+| ---- | ------- | -------- | ------------------------ |
+| `id` | Integer | Yes      | ID of a specific journal |
 
 #### Response
 
 ##### 200 (OK)
 
-> If the workout is found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+> If the journal is found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
 
 ```
 {
   "error": false,
-  "message": "Your workout was retrieved successfully.",
-  "workout": {
-      "workout_id": 1,
-      "workout_name": "Hoverboarding",
-      "workout_date": "1552286585353",
-      "workout_type": "Cardio",
-      "workout_subtype": "Skateboarding",
-      "workout_sets": null,
-      "workout_reps": null,
-      "workout_time": 60,
-      "workout_distance": 500,
-      "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
-      "body_region": "Legs",
-      "max_weight": null,
-      "progress_picture": null,
-      "user_id": 2,
+  "message": "Your journal was retrieved successfully.",
+  "journal": {
+      "id": 1,
+      "date": "Jan 20, 2019",
+      "region": "Legs",
+      "userId": 2,
       "created_at": "2019-03-11T06:43:05.407Z",
       "updated_at": "2019-03-11T06:43:05.407Z"
   }
@@ -759,12 +733,12 @@ _HTTP method:_ **[GET]**
 
 ##### 404 (Not Found)
 
-> If the workout cannot be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+> If the journal cannot be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
 
 ```
 {
   "error": true,
-  "workout": {},
+  "journal": {},
   "message": "Your workout could not be found."
 }
 ```
@@ -776,116 +750,18 @@ _HTTP method:_ **[GET]**
 ```
 {
   "error": true,
-  "workouts": {},
+  "journal": {},
   "message": "There was a problem with your request."
 }
 ```
 
 ---
 
-## **GET WORKOUTS BY USER**
+## **CREATE JOURNAL**
 
-### **Get workouts by user ID**
+### **Create new journal for user**
 
-_Method Url:_ `/api/restricted/workouts/user/:id`
-
-_HTTP method:_ **[GET]**
-
-#### Headers
-
-| name            | type   | required | description              |
-| --------------- | ------ | -------- | ------------------------ |
-| `Content-Type`  | String | Yes      | Must be application/json |
-| `Authorization` | String | Yes      | JSON Web Token           |
-
-#### Parameters
-
-| name      | type    | required | description              |
-| --------- | ------- | -------- | ------------------------ |
-| `user_id` | Integer | Yes      | ID of a specific workout |
-
-#### Response
-
-##### 200 (OK)
-
-> If the workout is found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
-
-```
-{
-  "error": false,
-  "message": "All of your workouts were retrieved successfully.",
-  "workouts": [
-      {
-        "workout_id": 1,
-        "workout_name": "Hoverboarding",
-        "workout_date": "1552286585353",
-        "workout_type": "Cardio",
-        "workout_subtype": "Skateboarding",
-        "workout_sets": null,
-        "workout_reps": null,
-        "workout_time": 60,
-        "workout_distance": 500,
-        "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
-        "body_region": "Legs",
-        "max_weight": null,
-        "progress_picture": null,
-        "user_id": 2,
-        "created_at": "2019-03-11T06:43:05.407Z",
-        "updated_at": "2019-03-11T06:43:05.407Z"
-      },
-      {
-        "workout_id": 5,
-        "workout_name": "Helping Doc Brown out",
-        "workout_date": "1552286585353",
-        "workout_type": "Strength",
-        "workout_subtype": "Squats",
-        "workout_sets": 5,
-        "workout_reps": 5,
-        "workout_time": 51,
-        "workout_distance": null,
-        "workout_notes": "Wait a minute. Wait a minute Doc, uh, are you telling me you built a time machine … out of a DeLorean?",
-        "body_region": "Legs",
-        "max_weight": 215,
-        "progress_picture": null,
-        "user_id": 2,
-        "created_at": "2019-03-11T06:43:05.407Z",
-        "updated_at": "2019-03-11T06:43:05.407Z"
-      }
-  ]
-}
-```
-
-##### 404 (Not Found)
-
-> If no workouts for the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
-
-```
-{
-  "error": true,
-  "workouts": [],
-  "message": "Your workouts could not be found."
-}
-```
-
-##### 500 (Bad Request)
-
-> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
-
-```
-{
-  "error": true,
-  "workouts": [],
-  "message": "There was a problem with your request."
-}
-```
-
----
-
-## **CREATE WORKOUT**
-
-### **Create new workout for user**
-
-_Method Url:_ `/api/restricted/workouts/`
+_Method Url:_ `/api/restricted/journals/`
 
 _HTTP method:_ **[POST]**
 
@@ -898,39 +774,19 @@ _HTTP method:_ **[POST]**
 
 #### Body
 
-| name               | type    | required | description                         |
-| ------------------ | ------- | -------- | ----------------------------------- |
-| `workout_name`     | String  | Yes      |                                     |
-| `workout_date`     | Integer | Yes      | Created from Date.now()             |
-| `workout_type`     | String  | No       |                                     |
-| `workout_subtype`  | String  | No       |                                     |
-| `workout_reps`     | Integer | No       |                                     |
-| `workout_sets`     | Integer | No       |                                     |
-| `workout_time`     | Integer | No       | Stored as minutes                   |
-| `workout_distance` | Integer | No       | Stored as feet                      |
-| `workout_notes`    | String  | No       |                                     |
-| `body_region`      | String  | No       |                                     |
-| `max_weight`       | Integer | No       | Stored as lbs                       |
-| `progress_picture` | String  | No       |                                     |
-| `user_id`          | Integer | Yes      | Foreign key reference to user table |
+| name     | type    | required | description                         |
+| -------- | ------- | -------- | ----------------------------------- |
+| `date`   | String  | Yes      | i.e. "Jan 20, 2019"                 |
+| `region` | String  | No       |                                     |
+| `userId` | Integer | Yes      | Foreign key reference to user table |
 
 _example_
 
 ```
 {
-  "workout_name": "Hoverboarding",
-  "workout_date": "1552286585353",
-  "workout_type": "Cardio",
-  "workout_subtype": "Skateboarding",
-  "workout_sets": null,
-  "workout_reps": null,
-  "workout_time": 60,
-  "workout_distance": 500,
-  "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
-  "body_region": "Legs",
-  "max_weight": null,
-  "progress_picture": null,
-  "user_id": 2,
+  "date": "Jan 20, 2019",
+  "region": "Legs",
+  "userId": 2,
 }
 ```
 
@@ -938,27 +794,17 @@ _example_
 
 ##### 200 (OK)
 
-> If the workout is successfully created, the endpoint will return an HTTP response with a status code `200` and a body as below.
+> If the journal is successfully created, the endpoint will return an HTTP response with a status code `200` and a body as below.
 
 ```
 {
   "error": false,
-  "message": "Your workout was created successfully.",
-  "workout": {
-    "workout_id": 1,
-    "workout_name": "Hoverboarding",
-    "workout_date": "1552286585353",
-    "workout_type": "Cardio",
-    "workout_subtype": "Skateboarding",
-    "workout_sets": null,
-    "workout_reps": null,
-    "workout_time": 60,
-    "workout_distance": 500,
-    "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
-    "body_region": "Legs",
-    "max_weight": null,
-    "progress_picture": null,
-    "user_id": 2,
+  "message": "Your journal was created successfully.",
+  "journal": {
+    "id": 1,
+    "date": "Jan 20, 2019",
+    "region": "Legs",
+    "userId": 2,
     "created_at": "2019-03-11T06:43:05.407Z",
     "updated_at": "2019-03-11T06:43:05.407Z"
   }
@@ -967,25 +813,25 @@ _example_
 
 ##### 406 (Not Acceptable)
 
-> If the required data to create the workout is not sent in the body, the endpoint will return an HTTP response with a status code `406` and a body as below.
+> If the required data to create the journal is not sent in the body, the endpoint will return an HTTP response with a status code `406` and a body as below.
 
 ```
 {
   "error": true,
-  "workout": [],
-  "message": "Please include required workout name and user ID details and try again."
+  "journal": [],
+  "message": "Please include required journal information and try again."
 }
 ```
 
 ##### 404 (Not Found)
 
-> If no workouts for the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+> If the journal cannot be created, the endpoint will return an HTTP response with a status code `404` and a body as below.
 
 ```
 {
   "error": true,
-  "workout": [],
-  "message": "Your workout could not be created."
+  "journal": [],
+  "message": "The journal could not be created."
 }
 ```
 
@@ -996,7 +842,7 @@ _example_
 ```
 {
   "error": true,
-  "workout": [],
+  "journal": [],
   "message": "There was a problem with your request."
 }
 ```
@@ -1018,41 +864,27 @@ _HTTP method:_ **[PUT]**
 | `Content-Type`  | String | Yes      | Must be application/json |
 | `Authorization` | String | Yes      | JSON Web Token           |
 
+#### Parameters
+
+| name | type    | required | description              |
+| ---- | ------- | -------- | ------------------------ |
+| `id` | Integer | Yes      | ID of a specific journal |
+
 #### Body
 
-| name               | type    | required | description                         |
-| ------------------ | ------- | -------- | ----------------------------------- |
-| `workout_name`     | String  | Yes      |                                     |
-| `workout_date`     | Integer | No       | Created from Date.now()             |
-| `workout_type`     | String  | No       |                                     |
-| `workout_subtype`  | String  | No       |                                     |
-| `workout_reps`     | Integer | No       |                                     |
-| `workout_sets`     | Integer | No       |                                     |
-| `workout_time`     | Integer | No       | Stored as minutes                   |
-| `workout_distance` | Integer | No       | Stored as feet                      |
-| `workout_notes`    | String  | No       |                                     |
-| `body_region`      | String  | No       |                                     |
-| `max_weight`       | Integer | No       | Stored as lbs                       |
-| `progress_picture` | String  | No       |                                     |
-| `user_id`          | Integer | Yes      | Foreign key reference to user table |
+| name     | type    | required | description                         |
+| -------- | ------- | -------- | ----------------------------------- |
+| `date`   | String  | Yes      | i.e. "Jan 20, 2019"                 |
+| `region` | String  | No       |                                     |
+| `userId` | Integer | Yes      | Foreign key reference to user table |
 
 _example_
 
 ```
 {
-  "workout_name": "Hoverboarding",
-  "workout_date": "1552286585353",
-  "workout_type": "Cardio",
-  "workout_subtype": "Skateboarding",
-  "workout_sets": null,
-  "workout_reps": null,
-  "workout_time": 60,
-  "workout_distance": 500,
-  "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
-  "body_region": "Legs",
-  "max_weight": null,
-  "progress_picture": null,
-  "user_id": 2,
+  "date": "Jan 20, 2019",
+  "region": "Legs",
+  "userId": 2,
 }
 ```
 
@@ -1060,57 +892,44 @@ _example_
 
 ##### 200 (OK)
 
-> If the workout is successfully updated the endpoint will return an HTTP response with a status code `200` and a body as below.
+> If the journal is successfully updated the endpoint will return an HTTP response with a status code `200` and a body as below.
 
 ```
 {
   "error": false,
-  "message": "Your workout was updated successfully.",
-  "workout": {
-    "workout_id": 1,
-    "workout_name": "Hoverboarding",
-    "workout_date": "1552286585353",
-    "workout_type": "Cardio",
-    "workout_subtype": "Skateboarding",
-    "workout_sets": null,
-    "workout_reps": null,
-    "workout_time": 60,
-    "workout_distance": 500,
-    "workout_notes": "Had to hoverboard away from some crazy futuristic bullies.",
-    "body_region": "Legs",
-    "max_weight": null,
-    "progress_picture": null,
-    "user_id": 2,
-    "created_at": "2019-03-11T06:43:05.407Z",
-    "updated_at": "2019-03-11T06:43:05.407Z"
-  },
-  numUpdated: 1
+  "message": "Your journal was updated successfully.",
+  "journal": {
+      "id": 17,
+      "date": "Jan 2000, 2019",
+      "region": "Legs Update",
+      "userId": 1,
+      "created_at": "2019-03-13T22:55:10.082Z",
+      "updated_at": "2019-03-13T22:55:10.082Z"
+  }
 }
 ```
 
 ##### 406 (Not Acceptable)
 
-> If the required data to update the workout is not sent in the body, the endpoint will return an HTTP response with a status code `406` and a body as below.
+> If the required data to update the journal is not sent in the body, the endpoint will return an HTTP response with a status code `406` and a body as below.
 
 ```
 {
   "error": true,
-  "user": [],
-  "message": "Please include required workout name and user ID details and try again.",
-  "numUpdated": 0
+  "journal": [],
+  "message": "Please include required journal information and try again."
 }
 ```
 
 ##### 404 (Not Found)
 
-> If no workout for the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+> If no journalfor the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
 
 ```
 {
   "error": true,
-  "workouts": [],
-  "message": "Your workout could not be found to be updated.",
-  "numUpdated": 0
+  "journal": [],
+  "message": "Your journal could not be found to be updated."
 }
 ```
 
@@ -1121,9 +940,8 @@ _example_
 ```
 {
   "error": true,
-  "workouts": [],
-  "message": "There was a problem with your request.",
-  "numUpdated": 0
+  "journal": [],
+  "message": "There was a problem with your request."
 }
 ```
 
