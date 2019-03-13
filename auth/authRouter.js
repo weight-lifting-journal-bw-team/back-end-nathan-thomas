@@ -17,7 +17,7 @@ router.post("/register", async (req, res) => {
     newUser.password = hash;
 
     const user = await Users.insert(newUser);
-    console.log(user);
+
     if (user) {
       const newUserProfile = await Users.find()
         .where({

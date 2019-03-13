@@ -3,8 +3,9 @@ const db = require("../database/dbConfig.js");
 module.exports = {
   find,
   findById,
+  findByNewJournal,
   insert,
-  // remove,
+  remove,
   update
 };
 
@@ -16,6 +17,13 @@ function findById(id) {
   return db("journals")
     .where({ id })
     .first();
+}
+
+function findByNewJournal(details) {
+  return db("journals").where({
+    date: details.date,
+    region: details.region
+  });
 }
 
 function insert(journal) {
@@ -30,8 +38,10 @@ function update(id, changes) {
     .update(changes);
 }
 
-// async function remove(id) {
-//   const journal = await db("journals")
-//     .where({ id })
-//     .del();
-// }
+async function remove(id) {
+  const journal = await db("journals")
+    .where({ id })
+    .first()
+    .delete();
+  return journal;
+}

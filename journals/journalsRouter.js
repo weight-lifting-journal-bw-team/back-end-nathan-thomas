@@ -67,10 +67,11 @@ router.post("/", async (req, res) => {
   try {
     const journal = await Journals.insert(req.body);
     if (journal) {
+      const newJournal = await Journals.findByNewJournal(req.body);
       res.status(200).json({
         error: false,
         message: "The journal was created in the database.",
-        journal
+        journal: newJournal
       });
     } else {
       res.status(404).json({
@@ -93,10 +94,11 @@ router.put("/:id", async (req, res) => {
   try {
     const journal = await Journals.update(req.params.id, req.body);
     if (journal) {
+      const updatedJournal = await Journals.findById(req.params.id);
       res.status(200).json({
         error: false,
         message: "The journal was updated in the database.",
-        journal
+        journal: updatedJournal
       });
     } else {
       res.status(404).json({
@@ -115,30 +117,28 @@ router.put("/:id", async (req, res) => {
 });
 
 // Get all journals request
-// router.delete("/:id", async (req, res) => {
-//   try {
-//     const journal = await Journals.remove(req.params.id);
-//     console.log(journal);
-//     if (journal) {
-//       res.status(200).json({
-//         error: false,
-//         message: "The journal was deleted from the database.",
-//         journal
-//       });
-//     } else {
-//       res.status(404).json({
-//         error: true,
-//         journal: {},
-//         message: "The journal could not be deleted in the database."
-//       });
-//     }
-//   } catch (error) {
-//     res.status(500).json({
-//       error: true,
-//       journals: {},
-//       message: "There was an error processing your request."
-//     });
-//   }
-// });
+router.delete("/:id", async (req, res) => {
+  try {
+    const journal = await Journals.remove(req.params.id);
+    if (journal) {
+      res.status(200).json({
+        error: false,
+        message: "The journal was deleted from the database."
+      });
+    } else {
+      res.status(404).json({
+        error: true,
+        journal: {},
+        message: "The journal could not be deleted in the database."
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      journals: {},
+      message: "There was an error processing your request."
+    });
+  }
+});
 
 module.exports = router;
