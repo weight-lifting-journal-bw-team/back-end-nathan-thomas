@@ -41,7 +41,7 @@ class App extends Component {
     e.preventDefault();
 
     const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyMzU0MjI0LCJleHAiOjE1NTI0NDA2MjR9.gO9bRJxkaXka2N0TQ7dEv7vllbzeL8DlkOPIKR0kdq4";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyNDU0NTc0LCJleHAiOjE1NTI1NDA5NzR9.PZZghnNaR99fLjg_UDPt0F8aBcu57tzk6RZTGghlbPU";
 
     const reqOptions = {
       headers: { authorization: token },
