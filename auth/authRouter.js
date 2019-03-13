@@ -33,7 +33,9 @@ router.post("/register", multerUploads, authConstraints, async (req, res) => {
     req.body.password = hash;
 
     // Conditionaly insertion of different image URLs based on user submission
-    const picture = imgUrl ? imgUrl : null;
+    const picture = imgUrl
+      ? imgUrl
+      : "http://res.cloudinary.com/personal-cloudinary/image/upload/v1552422242/hczfxlqfzq6eyyfhlfwk.png";
 
     // Compile new user and insert into database
     const compiledUser = { ...parsedNewUser, profile_picture: picture };

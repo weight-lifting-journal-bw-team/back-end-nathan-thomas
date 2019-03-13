@@ -4,11 +4,11 @@ import axios from "axios";
 class App extends Component {
   state = {
     user: {
-      username: "admi",
+      username: "admiasdf",
       password: "password",
       first_name: "admin",
       last_name: "istrator",
-      email: "emaaasdf"
+      email: "emaaaasdfas"
     },
     workout: {
       workout_name: "Monday crunche",
@@ -58,8 +58,8 @@ class App extends Component {
     formData.append("image", this.state.progress_picture);
 
     axios
-      .put(
-        "http://localhost:7000/api/restricted/workouts/1",
+      .post(
+        "http://localhost:7000/api/restricted/workouts",
         formData,
         reqOptions
       )

@@ -21,7 +21,7 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
   - [Get User](#get-user)
   - [Update User](#update-user)
   - [Delete User](#delete-user)
-- [Workouts Routes](#workouts-routes)
+- [Workout Routes](#workout-routes)
   - [Get Workouts](#get-workouts)
   - [Get Workout](#get-workout)
   - [Get Workouts by User](#get-workouts-by-user)
@@ -31,7 +31,7 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
 
 # DATA SCHEMA (DATA STRUCTURES)
 
-Complete data modeling and schema mockup can be found [here](https://www.dbdesigner.net/designer/schema/233119).
+Complete data modeling and schema mockup can be found [here](https://dbdesigner.page.link/2zm53xxYysCpuKPK6).
 
 `Users`
 
