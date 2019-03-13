@@ -158,6 +158,7 @@ router.post("/", multerUploads, async (req, res) => {
 router.put("/:id", multerUploads, async (req, res) => {
   // JSON.parse() and destructure req.body
   const parsedWorkout = JSON.parse(req.body.workout);
+  console.log(parsedWorkout);
 
   if (!parsedWorkout) {
     return res.status(406).json({

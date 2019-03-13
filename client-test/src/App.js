@@ -45,7 +45,7 @@ class App extends Component {
 
     const reqOptions = {
       headers: { authorization: token },
-      "Content-type": "multipart/form-data"
+      "Content-type": "application/json"
     };
 
     const formData = new FormData();
