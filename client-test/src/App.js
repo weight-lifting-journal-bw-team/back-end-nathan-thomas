@@ -4,11 +4,11 @@ import axios from "axios";
 class App extends Component {
   state = {
     user: {
-      username: "admi",
+      username: "adminasd",
       password: "password",
       first_name: "admin",
       last_name: "istrator",
-      email: "emaaasdf"
+      email: "emaa"
     },
     workout: {
       workout_name: "Monday crunche",
@@ -32,7 +32,7 @@ class App extends Component {
     this.setState(
       {
         ...this.state,
-        progress_picture: e.target.files[0]
+        profile_picture: e.target.files[0]
       },
       () => console.log(this.state)
     );
@@ -45,17 +45,17 @@ class App extends Component {
 
     const reqOptions = {
       headers: { authorization: token },
-      "Content-type": "application/json"
+      "Content-type": "multipart/form-data"
     };
 
     const formData = new FormData();
-    // let rawData = { ...this.state.user };
-    let rawData = { ...this.state.workout };
+    let rawData = { ...this.state.user };
+    // let rawData = { ...this.state.workout };
     rawData = JSON.stringify(rawData);
-    // formData.append("user", rawData);
-    formData.append("workout", rawData);
-    // formData.append("image", this.state.profile_picture);
-    formData.append("image", this.state.progress_picture);
+    formData.append("user", rawData);
+    // formData.append("workout", rawData);
+    formData.append("image", this.state.profile_picture);
+    // formData.append("image", this.state.progress_picture);
 
     axios
       .put(

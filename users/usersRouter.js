@@ -64,11 +64,14 @@ router.get("/:id", async (req, res) => {
 });
 
 // Update individual user request
-router.put("/:id", multerUploads, async (req, res) => {
-  const { username, password, first_name, last_name, email } = JSON.parse(
-    req.body.user
-  );
-  if (!username || !password || !first_name || !last_name || !email) {
+router.put("/:id", async (req, res) => {
+  if (
+    !req.body.username ||
+    !req.body.password ||
+    !req.body.first_name ||
+    !req.body.last_name ||
+    !req.body.email
+  ) {
     res.status(406).json({
       error: true,
       user: {},
@@ -77,32 +80,15 @@ router.put("/:id", multerUploads, async (req, res) => {
     });
   }
   try {
-    // JSON.parse() and destructure req.body
-    const parsedNewUser = JSON.parse(req.body.user);
-    console.log(parsedNewUser);
-
-    // Strip image file from request and send to cloudinary for returned URL or null if failed
-    const file = dataUri(req).content;
-    let imgUrl = null;
-    if (file) {
-      const result = await uploader.upload(file);
-      imgUrl = result.url;
-    }
-
     // Hash password comparisons
-    const hash = bcrypt.hashSync(parsedNewUser.password, 14);
-    parsedNewUser.password = hash;
+    const hash = bcrypt.hashSync(req.body.password, 14);
+    req.body.password = hash;
 
-    // Conditionaly insertion of updated URL if new picture or reuse existing one if noe
-    const picture = imgUrl ? imgUrl : parsedNewUser.profile_picture;
-
-    // Compile new user and insert into database
-    const compiledUser = { ...parsedNewUser, profile_picture: picture };
-    const updatedUser = await Users.update(req.params.id, compiledUser);
+    const updatedUser = await Users.update(req.params.id, req.body);
     if (updatedUser) {
       const user = await Users.find()
         .where({
-          username
+          username: req.body.username
         })
         .first();
       res.status(200).json({
