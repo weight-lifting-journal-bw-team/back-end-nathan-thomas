@@ -49,7 +49,33 @@ router.get("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: true,
-      journals: {},
+      journal: {},
+      message: "There was an error processing your request."
+    });
+  }
+});
+
+// Find all journals with corresponding exercises route
+router.get("/journals-exercises/:id", async (req, res) => {
+  try {
+    const journals = await Journals.findAllJournalsAndExercises(req.params.id);
+    if (journals.length) {
+      res.status(200).json({
+        error: false,
+        message: "Your journals and exercises were found successfully.",
+        journals
+      });
+    } else {
+      res.status(200).json({
+        error: true,
+        message: "Your journals and exercises could not be found.",
+        journals: []
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      journals: [],
       message: "There was an error processing your request."
     });
   }

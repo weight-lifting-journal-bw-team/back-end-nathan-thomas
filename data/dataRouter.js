@@ -17,7 +17,7 @@ router.get("/amount-journals/:id", async (req, res) => {
       res.status(404).json({
         error: true,
         message: "The array of workout chart data could not be found.",
-        journals: [null, null, null, null, null, null, null]
+        journals: [0, 0, 0, 0, 0, 0, 0]
       });
     }
   } catch {
@@ -25,7 +25,7 @@ router.get("/amount-journals/:id", async (req, res) => {
       error: true,
       weight: [],
       message: "There was an error processing your request.",
-      journals: [null, null, null, null, null, null, null]
+      journals: [0, 0, 0, 0, 0, 0, 0]
     });
   }
 });
