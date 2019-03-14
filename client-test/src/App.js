@@ -31,7 +31,14 @@ class App extends Component {
     profile_picture: null
   };
 
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTUyNDU0NTc0LCJleHAiOjE1NTI1NDA5NzR9.PZZghnNaR99fLjg_UDPt0F8aBcu57tzk6RZTGghlbPU";
+
+    const decoded = jwtdecode(token);
+    console.log(decoded);
+    console.log(Date.now());
+  };
 
   handleFile = e => {
     this.setState(

@@ -4,6 +4,7 @@ module.exports = {
   find,
   findById,
   findByNewJournal,
+  findAllJournalsAndExercises,
   insert,
   remove,
   update
@@ -24,6 +25,18 @@ function findByNewJournal(details) {
     date: details.date,
     region: details.region
   });
+}
+
+async function findAllJournalsAndExercises(userId) {
+  const exercises = await db("exercises").where({ userId });
+  return (journals = await db("journals")
+    .where({ userId })
+    .map(journal => {
+      const journalExercises = exercises.filter(
+        exercise => exercise.journalId === journal.id
+      );
+      return { ...journal, exercises: journalExercises };
+    }));
 }
 
 function insert(journal) {

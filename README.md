@@ -698,7 +698,7 @@ _HTTP method:_ **[GET]**
 
 ## **GET JOURNAL**
 
-### **Get workout by workout ID**
+### **Get journal by journal ID**
 
 _Method Url:_ `/api/restricted/journals/:id`
 
@@ -784,7 +784,7 @@ _HTTP method:_ **[POST]**
 | name     | type    | required | description                         |
 | -------- | ------- | -------- | ----------------------------------- |
 | `date`   | String  | Yes      | i.e. "Jan 20, 2019"                 |
-| `region` | String  | No       |                                     |
+| `region` | String  | Yes      |                                     |
 | `userId` | Integer | Yes      | Foreign key reference to user table |
 
 _example_
@@ -856,11 +856,11 @@ _example_
 
 ---
 
-## **UPDATE WORKOUT**
+## **UPDATE Journal**
 
-### **Update workout by workout ID**
+### **Update journal by journal ID**
 
-_Method Url:_ `/api/restricted/workouts/:id`
+_Method Url:_ `/api/restricted/journals/:id`
 
 _HTTP method:_ **[PUT]**
 
@@ -882,7 +882,7 @@ _HTTP method:_ **[PUT]**
 | name     | type    | required | description                         |
 | -------- | ------- | -------- | ----------------------------------- |
 | `date`   | String  | Yes      | i.e. "Jan 20, 2019"                 |
-| `region` | String  | No       |                                     |
+| `region` | String  | Yes      |                                     |
 | `userId` | Integer | Yes      | Foreign key reference to user table |
 
 _example_
@@ -930,7 +930,7 @@ _example_
 
 ##### 404 (Not Found)
 
-> If no journalfor the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+> If no journal for the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
 
 ```
 {
@@ -954,7 +954,7 @@ _example_
 
 ---
 
-## **DELETE JOURNALS**
+## **DELETE JOURNAL**
 
 ### **Delete journal by journal ID**
 
