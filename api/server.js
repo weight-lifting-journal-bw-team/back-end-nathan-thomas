@@ -14,12 +14,14 @@ const restricted = require("../auth/restricted.js");
 const exercisesRouter = require("../exercises/exercisesRouter.js");
 const journalRouter = require("../journals/journalsRouter.js");
 const usersRouter = require("../users/usersRouter.js");
+const dataRouter = require("../data/dataRouter.js");
 const authRouter = require("../auth/authRouter.js");
 
 // Router assignments
 server.use("/api/restricted/exercises", restricted, exercisesRouter);
 server.use("/api/restricted/journals", restricted, journalRouter);
 server.use("/api/restricted/users", restricted, usersRouter);
+server.use("/api/restricted/data", restricted, dataRouter);
 server.use("/api/auth", authRouter);
 
 // Generic / route for initial server online status check

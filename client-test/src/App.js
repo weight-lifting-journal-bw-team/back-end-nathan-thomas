@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import jwtdecode from "jwt-decode";
+
 class App extends Component {
   state = {
     user: {
@@ -28,6 +30,9 @@ class App extends Component {
     progress_picture: null,
     profile_picture: null
   };
+
+  componentDidMount = () => {};
+
   handleFile = e => {
     this.setState(
       {
