@@ -41,14 +41,14 @@ router.get("/journal/:id", async (req, res) => {
     } else {
       res.status(404).json({
         error: true,
-        workout: [],
+        exercises: [],
         message: "Your exercises could not be found."
       });
     }
   } catch (error) {
     res.status(500).json({
       error: true,
-      workouts: [],
+      exercises: [],
       message: "There was a problem with your request."
     });
   }
@@ -68,7 +68,7 @@ router.get("/:id", async (req, res) => {
       res.status(404).json({
         error: true,
         exercise: {},
-        message: "Your excise could not be found."
+        message: "Your exercise could not be found."
       });
     }
   } catch (error) {
