@@ -26,6 +26,13 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
   - [Create Journal](#create-journal)
   - [Update Journal](#update-journal)
   - [Delete Journal](#delete-journal)
+- [Exercises Routes](#exercises-routes)
+  - [Get Exercises](#get-exercises)
+  - [Get Exercises by Journal ID](#get-exercises-by-journal-id)
+  - [Get Exercise by ID](#get-exercise-by-id)
+  - [Create Exercise](#create-exercise)
+  - [Update Exercise](#update-exercise)
+  - [Delete Exercise](#delete-exercise)
 
 # DATA SCHEMA (DATA STRUCTURES)
 
@@ -947,11 +954,11 @@ _example_
 
 ---
 
-## **DELETE WORKOUT**
+## **DELETE JOURNALS**
 
-### **Delete workout by workout ID**
+### **Delete journal by journal ID**
 
-_Method Url:_ `/api/restricted/workouts/:id`
+_Method Url:_ `/api/restricted/journals/:id`
 
 _HTTP method:_ **[DELETE]**
 
@@ -964,33 +971,31 @@ _HTTP method:_ **[DELETE]**
 
 #### Parameters
 
-| name         | type    | required | description              |
-| ------------ | ------- | -------- | ------------------------ |
-| `workout_id` | Integer | Yes      | ID of a specific workout |
+| name | type    | required | description              |
+| ---- | ------- | -------- | ------------------------ |
+| `id` | Integer | Yes      | ID of a specific journal |
 
 #### Response
 
 ##### 200 (OK)
 
-> If the workout is found in the database and deleted, the endpoint will return an HTTP response with a status code `200` and a body as below.
+> If the journal is found in the database and deleted, the endpoint will return an HTTP response with a status code `200` and a body as below.
 
 ```
 {
   "error": false,
-  "message": "Your workout was deleted successfully.",
-  "numDeleted": 1
+  "message": "The journal was deleted from the database."
 }
 ```
 
 ##### 404 (Not Found)
 
-> If no workouts for the specified user can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+> If no journals for the specified id can be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
 
 ```
 {
   "error": true,
-  "message": "Your workout could not be found to be deleted.",
-  "numDeleted": 0
+  "message": "The journal could not be deleted in the database."
 }
 ```
 
@@ -1001,8 +1006,486 @@ _HTTP method:_ **[DELETE]**
 ```
 {
   "error": true,
-  "message": "There was a problem with your request.",
-  "numDeleted": 0
+  "message": "There was an error processing your request."
+}
+```
+
+---
+
+# EXERCISE ROUTES
+
+## **GET EXERCISES**
+
+### **Get all exercises**
+
+_Method Url:_ `/api/restricted/exercises`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Response
+
+##### 200 (OK)
+
+> If exercises are found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your exercises were retrieved successfully.",
+  "exercises": [
+        {
+          "id": 1,
+          "journalId": 1,
+          "userId": 1,
+          "name": "Squats",
+          "reps": 10,
+          "sets": 5,
+          "weight": "200"
+        },
+        {
+          "id": 2,
+          "journalId": 3,
+          "userId": 2,
+          "name": "Overhead Press",
+          "reps": 10,
+          "sets": 5,
+          "weight": "100"
+        },
+  ]
+}
+```
+
+##### 404 (Not Found)
+
+> If there are no exercises in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "journals": [],
+  "message": "The exercises could not be found."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "message": "There was a problem with your request."
+}
+```
+
+---
+
+## **GET EXERCISES BY JOURNAL ID**
+
+### **Get all exercises by journal id**
+
+_Method Url:_ `/api/restricted/exercises/journal/:id`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name | type    | required | description              |
+| ---- | ------- | -------- | ------------------------ |
+| `id` | Integer | Yes      | ID of a specific journal |
+
+#### Response
+
+##### 200 (OK)
+
+> If exercises are found in the database for a journal, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your exercises were retrieved successfully.",
+  "exercises": [
+      {
+        "id": 1,
+        "journalId": 1,
+        "userId": 1,
+        "name": "Squats",
+        "reps": 10,
+        "sets": 5,
+        "weight": "200"
+      },
+      {
+        "id": 2,
+        "journalId": 1,
+        "userId": 1,
+        "name": "Overhead Press",
+        "reps": 10,
+        "sets": 5,
+        "weight": "100"
+      },
+  ]
+}
+```
+
+##### 404 (Not Found)
+
+> If there are no exercises for that journal in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "exercises": [],
+  "message": "Your exercises could not be found."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "exercises": [],
+  "message": "There was a problem with your request."
+}
+```
+
+---
+
+## **GET EXERCISES BY ID**
+
+### **Get all exercises by id**
+
+_Method Url:_ `/api/restricted/exercises/:id`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name | type    | required | description               |
+| ---- | ------- | -------- | ------------------------- |
+| `id` | Integer | Yes      | ID of a specific exercise |
+
+#### Response
+
+##### 200 (OK)
+
+> If the exercise is found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your exercise was retrieved successfully.",
+  "exercises": [
+      {
+        "id": 1,
+        "journalId": 1,
+        "userId": 1,
+        "name": "Squats",
+        "reps": 10,
+        "sets": 5,
+        "weight": "200"
+      }
+  ]
+}
+```
+
+##### 404 (Not Found)
+
+> If there is no exercise found by the paramater id, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "exercises": [],
+  "message": "Your exercise could not be found."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "exercises": [],
+  "message": "There was a problem with your request."
+}
+```
+
+---
+
+---
+
+## **CREATE EXERCISE**
+
+### **Create new exercise for user**
+
+_Method Url:_ `/api/restricted/exercises/`
+
+_HTTP method:_ **[POST]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Body
+
+| name        | type    | required | description |
+| ----------- | ------- | -------- | ----------- |
+| `journalId` | Integer | Yes      |             |
+| `userId`    | Integer | Yes      |             |
+| `name`      | String  | Yes      |             |
+| `reps`      | Integer | Yes      |             |
+| `sets`      | Integer | Yes      |             |
+| `weight`    | Integer | Yes      |             |
+
+_example_
+
+```
+{
+  "journalId": 1,
+  "userId": 1,
+  "name": "Squats Updated",
+  "reps": 10,
+  "sets": 5,
+  "weight": "200"
+}
+```
+
+#### Response
+
+##### 200 (OK)
+
+> If the exercise is successfully created, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your exercise was created successfully.",
+  "exercise": {
+      "id": 40,
+      "journalId": 1,
+      "userId": 1,
+      "name": "Squats Updated",
+      "reps": 10,
+      "sets": 5,
+      "weight": "200"
+    }
+}
+```
+
+##### 404 (Not Found)
+
+> If the exercise cannot be created, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "exercise": [],
+  "message": "Your exercise could not be created."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "exercise": [],
+  "message": "There was a problem with your request."
+}
+```
+
+---
+
+## **UPDATE EXERCISE**
+
+### **Update exercise for user**
+
+_Method Url:_ `/api/restricted/exercises/:id`
+
+_HTTP method:_ **[PUT]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name | type    | required | description               |
+| ---- | ------- | -------- | ------------------------- |
+| `id` | Integer | Yes      | ID of a specific exercise |
+
+#### Body
+
+| name        | type    | required | description |
+| ----------- | ------- | -------- | ----------- |
+| `journalId` | Integer | Yes      |             |
+| `userId`    | Integer | Yes      |             |
+| `name`      | String  | Yes      |             |
+| `reps`      | Integer | Yes      |             |
+| `sets`      | Integer | Yes      |             |
+| `weight`    | Integer | Yes      |             |
+
+_example_
+
+```
+{
+  "id": 40,
+  "journalId": 1,
+  "userId": 1,
+  "name": "Squats Updated",
+  "reps": 10,
+  "sets": 5,
+  "weight": "200"
+}
+```
+
+#### Response
+
+##### 200 (OK)
+
+> If the exercise is successfully updated, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your exercise was created successfully.",
+  "exercise": {
+      "id": 40,
+      "journalId": 1,
+      "userId": 1,
+      "name": "Squats Updated",
+      "reps": 10,
+      "sets": 5,
+      "weight": "200"
+    }
+}
+```
+
+##### 404 (Not Found)
+
+> If the exercise cannot be updated, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "exercise": {},
+  "message": "Your exercise could not be created."
+}
+```
+
+##### 406 (Conflict)
+
+> If there are no items in the request, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "exercise": {},
+  "message": "Please include required exercise details and try again."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "exercise": {},
+  "message": "There was a problem with your request."
+}
+```
+
+---
+
+## **DELETE EXERCISE**
+
+### **Delete exercise by exercise ID**
+
+_Method Url:_ `/api/restricted/exercise/:id`
+
+_HTTP method:_ **[DELETE]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name | type    | required | description               |
+| ---- | ------- | -------- | ------------------------- |
+| `id` | Integer | Yes      | ID of a specific exercise |
+
+#### Response
+
+##### 200 (OK)
+
+> If the exercise is found in the database and deleted, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your exercise was deleted successfully."
+}
+```
+
+##### 404 (Not Found)
+
+> If the exercise for the specified id cannot be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "message": "The journal could not be deleted in the database."
+}
+```
+
+##### 500 (Bad Request)
+
+> If you send in invalid fields, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "message": "There was an error processing your request."
 }
 ```
 
