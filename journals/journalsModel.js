@@ -39,9 +39,12 @@ function update(id, changes) {
 }
 
 async function remove(id) {
+  const exercises = await db("exercises")
+    .where({ journalId: id })
+    .delete();
   const journal = await db("journals")
     .where({ id })
     .first()
-    .delete();
+    .del();
   return journal;
 }
