@@ -23,6 +23,7 @@ Check out the [Trello](https://trello.com/b/iULA29CO/weight-lifting-journal-back
 - [Journals Routes](#journals-routes)
   - [Get Journals](#get-journals)
   - [Get Journal by ID](#get-journal-by-id)
+  - [Get Journals and Exercises by User ID](#get-journals-and-exercises-by-user-id)
   - [Create Journal](#create-journal)
   - [Update Journal](#update-journal)
   - [Delete Journal](#delete-journal)
@@ -401,7 +402,7 @@ _HTTP method:_ **[GET]**
 
 ### **Get user by user ID**
 
-_Method Url:_ `/api/auth/register/:id`
+_Method Url:_ `/api/restricted/users/:id`
 
 _HTTP method:_ **[GET]**
 
@@ -758,6 +759,106 @@ _HTTP method:_ **[GET]**
 {
   "error": true,
   "journal": {},
+  "message": "There was a problem with your request."
+}
+```
+
+---
+
+## **GET JOURNALS AND EXERCISES BY USER ID**
+
+### **Get journal by journal ID**
+
+_Method Url:_ `/api/restricted/journals/journals-exercises/:id`
+
+_HTTP method:_ **[GET]**
+
+#### Headers
+
+| name            | type   | required | description              |
+| --------------- | ------ | -------- | ------------------------ |
+| `Content-Type`  | String | Yes      | Must be application/json |
+| `Authorization` | String | Yes      | JSON Web Token           |
+
+#### Parameters
+
+| name | type    | required | description           |
+| ---- | ------- | -------- | --------------------- |
+| `id` | Integer | Yes      | ID of a specific user |
+
+#### Response
+
+##### 200 (OK)
+
+> If the journal(s) and corresponding exercises are found in the database, the endpoint will return an HTTP response with a status code `200` and a body as below.
+
+```
+{
+  "error": false,
+  "message": "Your journals and exercises were found successfully.",
+  "journals": [
+        {
+          "id": 23,
+          "date": "1552585016471",
+          "region": "Arms",
+          "userId": 1,
+          "created_at": "2019-03-14T17:36:59.175Z",
+          "updated_at": "2019-03-14T17:36:59.175Z",
+          "exercises": [
+              {
+                  "id": 22,
+                  "journalId": 23,
+                  "userId": 1,
+                  "name": "Deadlift",
+                  "reps": 10,
+                  "sets": 25,
+                  "weight": "450 lbs"
+              }
+          ]
+      },
+      {
+          "id": 24,
+          "date": "1552585478195",
+          "region": "fdsf",
+          "userId": 1,
+          "created_at": "2019-03-14T17:44:40.934Z",
+          "updated_at": "2019-03-14T17:44:40.934Z",
+          "exercises": [
+              {
+                  "id": 23,
+                  "journalId": 24,
+                  "userId": 1,
+                  "name": "ASA",
+                  "reps": 23,
+                  "sets": 2,
+                  "weight": "ASFD"
+              }
+          ]
+      }
+  ]
+}
+```
+
+##### 404 (Not Found)
+
+> If the journal(s) and corresponding exercises cannot be found in the database, the endpoint will return an HTTP response with a status code `404` and a body as below.
+
+```
+{
+  "error": true,
+  "journals": [],
+  "message": "Your journals and exercises could not be found."
+}
+```
+
+##### 500 (Bad Request)
+
+> If there is a database error, the endpoint will return an HTTP response with a status code `500` and a body as below.
+
+```
+{
+  "error": true,
+  "journals": [],
   "message": "There was a problem with your request."
 }
 ```
