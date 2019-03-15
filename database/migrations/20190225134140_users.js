@@ -1,5 +1,3 @@
-// Data modeling here: https://www.dbdesigner.net/designer/schema/233119
-
 exports.up = function(knex, Promise) {
   return knex.schema.createTable("users", tbl => {
     // Unique user id
