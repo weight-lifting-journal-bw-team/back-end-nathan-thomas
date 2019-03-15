@@ -9,7 +9,7 @@ const authConstraints = require("./authConstraints.js");
 const router = express.Router();
 
 // New user registration request
-router.post("/register", async (req, res) => {
+router.post("/register", authConstraints, async (req, res) => {
   const newUser = req.body;
   try {
     // Encryption of password

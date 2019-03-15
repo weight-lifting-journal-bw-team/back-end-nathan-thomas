@@ -402,7 +402,7 @@ _HTTP method:_ **[GET]**
 
 ### **Get user by user ID**
 
-_Method Url:_ `/api/auth/register/:id`
+_Method Url:_ `/api/restricted/users/:id`
 
 _HTTP method:_ **[GET]**
 
